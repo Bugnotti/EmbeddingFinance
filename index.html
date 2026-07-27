@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founder OS - AI-Powered Startup Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-blur {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold gradient-text">Founder OS</div>
+                <button onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Get Early Access
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4 gradient-blur">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                Build Your Startup <span class="gradient-text">In One Place</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                Stop juggling courses, templates, legal websites, and investor platforms. Founder OS is your AI-powered companion that guides you from idea to scale—teaching, building, and validating every step of the way.
+            </p>
+            <button onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition inline-block">
+                Join the Waitlist
+            </button>
+        </div>
+        <div class="mt-16 max-w-5xl mx-auto">
+            <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100 p-12">
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl font-bold gradient-text mb-2">1</div>
+                        <p class="text-gray-700">Personalized Roadmap</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold gradient-text mb-2">100+</div>
+                        <p class="text-gray-700">Lessons & Exercises</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold gradient-text mb-2">∞</div>
+                        <p class="text-gray-700">AI Guidance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">The Problem</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-3xl mb-4">📚</div>
+                    <h3 class="text-xl font-bold mb-3">Scattered Resources</h3>
+                    <p class="text-gray-600">Founders spend weeks jumping between courses, templates, legal sites, and advisor platforms just to answer basic questions.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-3xl mb-4">🔄</div>
+                    <h3 class="text-xl font-bold mb-3">Learning vs. Doing</h3>
+                    <p class="text-gray-600">Traditional education teaches in isolation. You watch videos but never build anything real.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-3xl mb-4">⚖️</div>
+                    <h3 class="text-xl font-bold mb-3">Legal Complexity</h3>
+                    <p class="text-gray-600">Navigating legal requirements for your country shouldn't require hiring a lawyer before you even launch.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-3xl mb-4">💰</div>
+                    <h3 class="text-xl font-bold mb-3">Validation Gap</h3>
+                    <p class="text-gray-600">Most founders skip validation entirely, leading to products nobody wants and failed fundraising.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">The Solution: Your Startup OS</h2>
+            <p class="text-center text-gray-600 mb-16 text-lg">One platform. Everything you need to build a company.</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">🎮</div>
+                    <h3 class="text-2xl font-bold mb-3">Learn by Building</h3>
+                    <p class="text-gray-600">Short lessons + immediate exercises. Like Duolingo for startups. Every concept turns into actionable work on your real business.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">🗺️</div>
+                    <h3 class="text-2xl font-bold mb-3">Your Personalized Roadmap</h3>
+                    <p class="text-gray-600">Tell us your idea and country. Get a custom roadmap adapted to your legal framework and market conditions.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">✍️</div>
+                    <h3 class="text-2xl font-bold mb-3">Artifact Generation</h3>
+                    <p class="text-gray-600">Business plans, pitch decks, financial projections, value propositions—AI helps you create every document your startup needs.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="text-2xl font-bold mb-3">Built-in Validation</h3>
+                    <p class="text-gray-600">Customer discovery, interview prep, market research, MVP testing—validation is built into your journey, not an afterthought.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">⚖️</div>
+                    <h3 class="text-2xl font-bold mb-3">Legal & Admin Made Simple</h3>
+                    <p class="text-gray-600">Country-specific guidance on registration, compliance, and legal docs. All organized in one workspace.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold mb-3">Business Dashboard</h3>
+                    <p class="text-gray-600">Track revenue, cash flow, customers, fundraising progress, and milestones. Keep using the platform beyond launch.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">💸</div>
+                    <h3 class="text-2xl font-bold mb-3">Fundraising Ecosystem</h3>
+                    <p class="text-gray-600">Prepare investment-ready materials and connect with investors, accelerators, and mentors directly on the platform.</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl border border-gray-200">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-3">AI Co-Founder</h3>
+                    <p class="text-gray-600">AI reviews your work, suggests improvements, identifies gaps, and refines your ideas at every step.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">How It Works</h2>
+            <div class="space-y-8">
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">1</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Define Your Startup</h3>
+                        <p class="text-gray-600">Share your idea and select your country. We generate a personalized roadmap based on your market and legal requirements.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">2</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Learn & Build in Parallel</h3>
+                        <p class="text-gray-600">Progress through bite-sized lessons and exercises. Each lesson is immediately followed by actionable tasks on your real business.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">3</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Generate Artifacts with AI</h3>
+                        <p class="text-gray-600">Create business plans, pitch decks, financial models, and more. AI assists throughout, reviewing and refining your work.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">4</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Validate & Pivot</h3>
+                        <p class="text-gray-600">Run customer interviews, market research, and MVP testing. Get structured feedback and decide when to pivot.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">5</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Handle Legal & Launch</h3>
+                        <p class="text-gray-600">Follow country-specific guidance for registration, compliance, and legal docs. Launch your company confident and compliant.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600 text-white font-bold text-lg">6</div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Scale & Fundraise</h3>
+                        <p class="text-gray-600">Track metrics, prepare for investors, and connect with the fundraising ecosystem—all from one dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision -->
+    <section class="py-20 px-4">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">The Complete Operating System for Entrepreneurship</h2>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                Founder OS isn't just a learning platform or a tool collection. It's a complete operating system designed for every stage of startup life—from your first idea to building a million-dollar company.
+            </p>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                We teach you how to build. We help you actually build. We organize everything you create. And we connect you with the resources you need to succeed.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">Simple Pricing</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl border border-gray-200">
+                    <h3 class="text-2xl font-bold mb-4">Free</h3>
+                    <p class="text-gray-600 mb-6">Everything you need to get started</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Personalized roadmap</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Core lessons & exercises</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Basic artifact templates</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Validation framework</li>
+                        <li class="flex items-center"><span class="text-gray-300 mr-3">✗</span> AI assistance</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-xl border-2 border-blue-600">
+                    <h3 class="text-2xl font-bold mb-4">Pro</h3>
+                    <p class="text-gray-600 mb-6">For serious founders</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Everything in Free</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> AI-powered document review</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Advanced analytics</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Investor matching</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> Priority support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="signup" class="py-20 px-4">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Build Your Startup?</h2>
+            <p class="text-lg text-gray-600 mb-8">Join founders building the future. Early access coming soon.</p>
+            
+            <form class="flex flex-col sm:flex-row gap-3">
+                <input type="email" placeholder="your@email.com" required class="flex-1 px-6 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-600">
+                <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition whitespace-nowrap">
+                    Get Early Access
+                </button>
+            </form>
+            <p class="text-sm text-gray-500 mt-4">We'll notify you when we launch. No spam, ever.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-bold mb-4">Founder OS</h3>
+                    <p class="text-gray-400">The operating system for entrepreneurs.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Features</a></li>
+                        <li><a href="#" class="hover:text-white">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">About</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Founder OS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple email validation on form submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert(`Thanks for your interest! We'll reach out to ${email} soon.`);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
