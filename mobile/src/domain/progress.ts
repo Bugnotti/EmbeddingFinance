@@ -1,13 +1,15 @@
 import { Milestone } from '@/data/demo';
 
 export function completeTaskTransition(milestones: Milestone[], taskId: string): Milestone[] {
-  if (taskId !== 'write-assumption') return milestones;
-  const assumption = milestones.find((item) => item.id === 'assumption');
-  if (!assumption || assumption.status === 'completed') return milestones;
+  const targetId = taskId === 'write-assumption' ? 'assumption' : taskId === 'prepare-interview' ? 'interviews' : undefined;
+  if (!targetId) return milestones;
+  const target = milestones.find((item) => item.id === targetId);
+  if (!target || target.status !== 'in_progress') return milestones;
 
   return milestones.map((item) => {
-    if (item.id === 'assumption') return { ...item, status: 'completed', progress: 100 } as Milestone;
-    if (item.id === 'interviews') return { ...item, status: 'in_progress' } as Milestone;
+    if (item.id === targetId) return { ...item, status: 'completed', progress: 100 } as Milestone;
+    if (taskId === 'write-assumption' && item.id === 'interviews') return { ...item, status: 'in_progress' } as Milestone;
+    if (taskId === 'prepare-interview' && item.id === 'canvas') return { ...item, status: 'in_progress' } as Milestone;
     return item;
   });
 }

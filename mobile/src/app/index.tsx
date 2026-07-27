@@ -1,21 +1,27 @@
-import { router } from 'expo-router';
-import { ArrowRight, Compass, Sparkles } from 'lucide-react-native';
+import { Link, Redirect } from 'expo-router';
+import { ArrowRight, Check, Cloud, Compass, Flag, Lightbulb, Sparkles, Target } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
-import { AppButton, AppText } from '@/components/ui';
-import { colors, spacing } from '@/constants/theme';
+import { AppText } from '@/components/ui';
+import { colors, radii, spacing } from '@/constants/theme';
 import { useDemoStore } from '@/store/use-demo-store';
 
 export default function WelcomeScreen() {
   const hydrated = useDemoStore((state) => state.hydrated);
   const onboardingComplete = useDemoStore((state) => state.onboardingComplete);
+  const markHydrated = useDemoStore((state) => state.markHydrated);
 
   useEffect(() => {
-    if (hydrated && onboardingComplete) router.replace('/(tabs)/journey');
-  }, [hydrated, onboardingComplete]);
+    const timeout = setTimeout(() => {
+      if (!useDemoStore.getState().hydrated) markHydrated();
+    }, 2500);
+    return () => clearTimeout(timeout);
+  }, [markHydrated]);
 
   if (!hydrated) return <View style={styles.loading}><ActivityIndicator color={colors.primary} /></View>;
+  if (onboardingComplete) return <Redirect href="/(tabs)/journey" />;
 
   return <ScrollView contentContainerStyle={styles.content}>
     <View style={styles.mark}><Sparkles color={colors.white} size={24} /></View>
@@ -23,32 +29,52 @@ export default function WelcomeScreen() {
     <AppText variant="display" style={styles.title}>Make your idea real.</AppText>
     <AppText variant="body" color={colors.inkMuted} style={styles.lead}>A clear, guided path from first thought to first customer.</AppText>
     <View style={styles.preview}>
-      <View style={styles.previewHeader}><Compass color={colors.primary} size={19} /><AppText variant="small" color={colors.primary}>Your founder journey</AppText></View>
-      <View style={styles.previewLine}><View style={styles.dotDone} /><View style={styles.lineDone} /><AppText variant="body">Define the problem</AppText></View>
-      <View style={styles.previewLine}><View style={styles.dotActive} /><View style={styles.line} /><AppText variant="body">Validate your first assumption</AppText></View>
-      <View style={styles.previewLine}><View style={styles.dotLocked} /><AppText variant="body" color={colors.inkMuted}>Shape your business model</AppText></View>
+      <View style={styles.previewHeader}><Compass color={colors.primary} size={18} /><AppText variant="caption" color={colors.primary}>YOUR FOUNDER JOURNEY</AppText></View>
+      <Cloud color={colors.white} fill={colors.white} size={66} style={styles.cloudOne} />
+      <Cloud color={colors.white} fill={colors.white} size={52} style={styles.cloudTwo} />
+      <Svg viewBox="0 0 342 220" width="100%" height="220" style={styles.previewPath} pointerEvents="none">
+        <Path d="M 48 174 C 82 174, 92 112, 157 112 C 214 112, 224 54, 292 54" fill="none" stroke={colors.white} strokeWidth={22} strokeLinecap="round" />
+        <Path d="M 48 174 C 82 174, 92 112, 157 112 C 214 112, 224 54, 292 54" fill="none" stroke="#A89EF8" strokeWidth={10} strokeLinecap="round" />
+      </Svg>
+      <JourneyPreviewNode style={styles.previewNodeOne} icon={Check} label="Problem" tone={colors.primary} />
+      <JourneyPreviewNode style={styles.previewNodeTwo} icon={Target} label="Validate" tone={colors.coral} />
+      <JourneyPreviewNode style={styles.previewNodeThree} icon={Flag} label="Launch" tone={colors.amber} />
+      <View style={styles.ideaSpark}><Lightbulb color={colors.amber} fill={colors.amberSoft} size={18} /></View>
     </View>
     <View style={styles.spacer} />
-    <AppButton label="Start building" onPress={() => router.push('/onboarding')} icon={ArrowRight} />
+    <Link href="/onboarding" accessibilityRole="button" accessibilityLabel="Start building" style={styles.startLink}><View style={styles.startLinkContent}><ArrowRight color={colors.white} size={18} strokeWidth={2.2} /><AppText variant="button" color={colors.white}>Start building</AppText></View></Link>
     <AppText variant="caption" color={colors.inkSoft} style={styles.note}>A five-minute guided demo. No account required.</AppText>
   </ScrollView>;
 }
 
+function JourneyPreviewNode({ icon: Icon, label, tone, style }: { icon: typeof Check; label: string; tone: string; style: object }) {
+  return <View style={[styles.previewNodeGroup, style]}>
+    <View style={[styles.previewNode, { backgroundColor: tone }]}><Icon color={colors.white} size={19} strokeWidth={3} /></View>
+    <AppText variant="caption" style={styles.previewNodeLabel}>{label}</AppText>
+  </View>;
+}
+
 const styles = StyleSheet.create({
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.canvas },
-  content: { flexGrow: 1, padding: spacing.xl, paddingTop: 88, paddingBottom: 32, maxWidth: 620, width: '100%', alignSelf: 'center' },
+  content: { flexGrow: 1, padding: spacing.xl, paddingTop: 64, paddingBottom: 32, maxWidth: 620, width: '100%', alignSelf: 'center', overflow: 'hidden' },
   mark: { width: 52, height: 52, borderRadius: 16, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.xl },
   overline: { letterSpacing: 1.6, fontWeight: '800', marginBottom: spacing.sm },
   title: { maxWidth: 330 },
   lead: { maxWidth: 340, marginTop: spacing.md, lineHeight: 25 },
-  preview: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 14, padding: spacing.lg, marginTop: 52, gap: spacing.md },
-  previewHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
-  previewLine: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 30 },
-  dotDone: { width: 12, height: 12, borderRadius: 6, backgroundColor: colors.primary },
-  dotActive: { width: 12, height: 12, borderRadius: 6, borderWidth: 3, borderColor: colors.primary, backgroundColor: colors.white },
-  dotLocked: { width: 12, height: 12, borderRadius: 6, backgroundColor: colors.line },
-  lineDone: { width: 1, height: 22, backgroundColor: colors.primary, marginLeft: 5 },
-  line: { width: 1, height: 22, backgroundColor: colors.line, marginLeft: 5 },
-  spacer: { flex: 1, minHeight: 54 },
+  preview: { height: 266, marginTop: spacing.xl, position: 'relative' },
+  previewHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, position: 'absolute', left: 0, top: 2, zIndex: 2 },
+  previewPath: { position: 'absolute', left: 0, right: 0, top: 28 },
+  cloudOne: { position: 'absolute', left: -30, bottom: 20, opacity: 0.86 },
+  cloudTwo: { position: 'absolute', right: -16, top: 45, opacity: 0.75 },
+  previewNodeGroup: { position: 'absolute', alignItems: 'center', width: 80, zIndex: 3 },
+  previewNodeOne: { left: 6, top: 173 },
+  previewNodeTwo: { left: '39%', top: 111 },
+  previewNodeThree: { right: 5, top: 53 },
+  previewNode: { width: 48, height: 48, borderRadius: 24, borderWidth: 4, borderColor: colors.white, alignItems: 'center', justifyContent: 'center' },
+  previewNodeLabel: { marginTop: 3, color: colors.ink, fontWeight: '800', backgroundColor: colors.canvas, paddingHorizontal: 4, borderRadius: radii.sm },
+  ideaSpark: { position: 'absolute', left: '27%', top: 88, width: 34, height: 34, borderRadius: 17, backgroundColor: colors.amberSoft, alignItems: 'center', justifyContent: 'center' },
+  spacer: { flex: 1, minHeight: spacing.md },
+  startLink: { minHeight: 52, borderRadius: radii.md, backgroundColor: colors.primary, justifyContent: 'center', textDecorationLine: 'none' },
+  startLinkContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   note: { textAlign: 'center', marginTop: spacing.md },
 });

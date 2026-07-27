@@ -20,66 +20,133 @@ The mockup is intended to:
 - establish a reusable mobile design and code foundation;
 - avoid premature backend, AI, legal, billing, and infrastructure work.
 
-## Implementation Status: 2026-07-27
+## Implementation Status: 2026-07-28
 
 The P0 mobile demo is implemented in `mobile/` and currently runs as an Expo
 application with local fixtures. The verified flow is Welcome -> Setup ->
 Journey -> Lesson -> Task -> Completion -> Workspace -> Artifact -> Coach ->
 Metrics.
 
-Completed and verified:
+Completed:
 
 - Expo project bootstrap, strict TypeScript, Expo Router, app config, and scripts.
 - Expo SDK 54 alignment for physical-device Expo Go compatibility.
 - Shared semantic tokens, buttons, forms, progress, status, and tab navigation.
-- Local Zustand state with AsyncStorage persistence, reset, and sample restore.
+- Local Zustand state with explicit AsyncStorage persistence, reset, and sample
+  restore.
 - Welcome, onboarding, Journey, Workspace, Metrics, Profile, Lesson, Task,
   Artifact, and Coach routes.
 - P0 assumption task with idempotent completion and milestone transition.
 - Value Proposition Canvas editing and local demo Coach interaction.
-- ESLint, strict typecheck, four domain tests, and web static export.
+- A playful non-green visual direction with a sky palette, a winding roadmap,
+  clouds, colored stage nodes, and a matching mini-roadmap on the welcome screen.
+- ESLint, strict typecheck, five domain tests, and web static export.
 - Developer README and presenter runbook.
 
-Still pending before calling the mockup handoff-ready:
+The mockup is functional again, but its visual design is **not approved** and the
+current UI must still be treated as an iteration rather than a finished design.
+The user explicitly considers several elements unattractive and wants a more
+iconic, cartoonized, Duolingo-like experience.
 
-- Full physical iPhone UX checklist and Android emulator manual validation; the
-  iPhone connection itself has now been verified.
-- Component tests, accessibility audit, reduced-motion checks, and screenshot
-  review across the device matrix.
-- Country-specific roadmap variations, service interfaces, persisted Coach
-  conversation, and a real loading/error state model.
-- Prettier, app error boundary, and production-like development build setup.
+## Current Checkpoint: Web Interactions Restored, Visual Audit In Progress
 
-## Current Checkpoint: iPhone Connection Fixed
+### Critical interaction regression found and fixed
 
-The iPhone connection was successfully validated with Expo Go after aligning the
-project to Expo SDK 54. The earlier timeout and “protocols differ” message came
-from two separate issues:
-
-- SDK 57 was not the physical-device Expo Go target during the SDK 57 transition.
-- LAN discovery is unreliable on some Wi-Fi networks, so tunnel mode is the
-  supported fallback.
-
-Current launch command from `mobile/`:
-
-```bash
-npx expo start --clear --tunnel
-```
-
-Verified package alignment:
+The web app looked rendered but all React Native `Pressable` controls were inert.
+The server-rendered HTML remained visible, which made this look like a button
+problem, but the browser bundle was actually crashing before React hydration:
 
 ```text
-expo 54.0.36
-expo-router 6.0.24
-react 19.1.0
-react-native 0.81.5
-react-native-svg 15.12.1
+SyntaxError: Cannot use 'import.meta' outside a module
 ```
 
-`npx expo install --check`, strict TypeScript, no-cache ESLint, Jest, and the
-web export all pass. The next chat should continue with the remaining Phase 10
-work: full iPhone UX checklist, Android emulator validation, accessibility and
-large-text review, screenshot review, and the remaining error/loading states.
+The invalid syntax came from `zustand@5.0.14`'s middleware bundle, which left
+`import.meta.env` inside Expo's classic browser script. The store no longer
+imports `zustand/middleware`; it now uses the core Zustand store with a small,
+explicit AsyncStorage hydration and persistence adapter. The served and
+production bundles no longer contain executable `import.meta.env` syntax.
+
+A second returning-user failure was also fixed. The welcome route previously
+called `router.replace` before Expo Router's root layout had mounted. It now uses
+Expo Router's declarative `Redirect`, and both fresh-user and persisted-user
+entry paths work without a runtime error.
+
+### Browser interaction audit completed
+
+The following flow was exercised in a real headless Chrome session through the
+Chrome DevTools Protocol, rather than inferred from static HTML:
+
+1. Open the fresh welcome screen and activate `Start building`.
+2. Open the industry selector and confirm that its choices render.
+3. Fill and submit onboarding.
+4. Activate the Journey `Continue` action.
+5. Open the lesson and practical task.
+6. Fill and complete the assumption task.
+7. Confirm progress changes from 34% to 45%.
+8. Return to Journey and switch to Workspace.
+9. Open the Value Proposition Canvas and confirm field autosave behavior.
+10. Reopen `/` with persisted data and confirm redirection to Journey.
+11. Clear local storage and confirm the fresh welcome path returns.
+
+No new browser runtime exceptions occurred after the fixes.
+
+### Visual work completed tonight
+
+- Replaced the green-led palette with centralized playful and sunset palette
+  options in `src/constants/theme.ts`; the active palette is `playful`.
+- Rebuilt Journey around a winding, connected path with sky, cloud, sun, stage
+  color, progress, locked, current, and completed states.
+- Increased roadmap row spacing so node labels and badges no longer collide with
+  the next stop.
+- Removed an initials bubble that overlapped Journey progress metadata.
+- Replaced the welcome screen's plain white preview card with a compact,
+  cartoon-like founder mini-roadmap.
+- Confirmed the primary welcome action remains inside a 390 x 844 first viewport.
+- Reviewed phone-sized screenshots for Welcome, Onboarding, Journey, and
+  Workspace.
+
+### Verification at pause
+
+Run from `mobile/`:
+
+```text
+npm run typecheck       pass
+npm run lint            pass
+npm test -- --runInBand pass: 5 tests
+npx expo export --platform web
+                        pass: 16 static routes, 3.01 MB web bundle
+git diff --check        pass
+```
+
+The isolated Expo server on port 8083 and the headless Chrome audit session on
+port 9223 were stopped before pausing. No audit server should be running.
+
+### Known issues and next steps
+
+Resume in this order:
+
+1. Continue the visual audit screen by screen. Treat the current playful UI as a
+   direction test, not final polish. Review Welcome, Onboarding, Journey,
+   Lesson, Task, Workspace, Artifact, Coach, Metrics, and Profile at phone and
+   desktop widths.
+2. Ask for concrete feedback on the least successful elements and compare a
+   small number of coherent visual directions before another broad restyle.
+3. Finish the interaction matrix for Coach, Profile alerts, reset and restore,
+   filters, locked milestones, Metrics, back navigation, validation errors, and
+   repeated task completion.
+4. Add an automated browser smoke test that fails when React hydration breaks;
+   static export alone did not detect the dead-button regression.
+5. Investigate two non-blocking development warnings observed in Expo output:
+   deprecated `props.pointerEvents` usage and one transient
+   `Unexpected text node: .` server-render warning. Neither produced a browser
+   exception during the final walkthrough.
+6. Run the full physical iPhone UX checklist and Android emulator validation,
+   followed by accessibility, large-text, reduced-motion, and keyboard checks.
+7. Add an app error boundary and explicit loading, corrupted-storage, and
+   recovery states before calling the mockup handoff-ready.
+
+Current edits are uncommitted. Preserve the working tree and continue from the
+present files rather than resetting the UI audit changes.
 
 ## 2. Success Outcome
 

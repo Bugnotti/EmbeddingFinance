@@ -19,6 +19,13 @@ describe('roadmap progress', () => {
     expect(twice).toBe(once);
   });
 
+  it('completes the interview task and opens the canvas', () => {
+    const afterAssumption = completeTaskTransition(roadmap, 'write-assumption');
+    const next = completeTaskTransition(afterAssumption, 'prepare-interview');
+    expect(next.find((item) => item.id === 'interviews')?.status).toBe('completed');
+    expect(next.find((item) => item.id === 'canvas')?.status).toBe('in_progress');
+  });
+
   it('does not change the roadmap for an unknown task', () => {
     expect(completeTaskTransition(roadmap, 'unknown-task')).toBe(roadmap);
   });

@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View
 
 import { AppButton, AppText, FormField, IconButton } from '@/components/ui';
 import { colors, radii, spacing } from '@/constants/theme';
-import { countryOptions, defaultStartup, industryOptions, Startup } from '@/data/demo';
+import { countryOptions, industryOptions, Startup } from '@/data/demo';
 import { useDemoStore } from '@/store/use-demo-store';
 
 export default function OnboardingScreen() {
@@ -20,9 +20,11 @@ export default function OnboardingScreen() {
   const errors = { name: submitted && name.trim().length < 2 ? 'Add a startup name.' : undefined, idea: submitted && idea.trim().length < 20 ? 'Describe the idea in a little more detail.' : undefined };
 
   function handleSubmit() {
+    const nameError = name.trim().length < 2;
+    const ideaError = idea.trim().length < 20;
     setSubmitted(true);
-    if (errors.name || errors.idea) return;
-    const startup: Startup = { ...defaultStartup, id: `startup-${Date.now()}`, name: name.trim(), idea: idea.trim(), industry, countryCode, stage: 'Idea' };
+    if (nameError || ideaError) return;
+    const startup: Startup = { id: `startup-${Date.now()}`, name: name.trim(), idea: idea.trim(), industry, countryCode, stage: 'Validate' };
     completeOnboarding(startup);
     router.replace('/(tabs)/journey');
   }

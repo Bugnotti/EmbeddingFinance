@@ -1,11 +1,16 @@
 import { router } from 'expo-router';
-import { ArrowRight, Check, LockKeyhole, Sparkles, Target } from 'lucide-react-native';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ArrowRight, Blocks, Check, Cloud, Flag, Lightbulb, LockKeyhole, Megaphone, Rocket, Sparkles, Sun, Target, TrendingUp, UsersRound } from 'lucide-react-native';
+import Svg, { Path } from 'react-native-svg';
+import { useState } from 'react';
 
 import { AppButton, AppText, ProgressBar, SectionCard, StatusBadge } from '@/components/ui';
-import { colors, spacing } from '@/constants/theme';
-import { JourneyStage, stages } from '@/data/demo';
+import { colors, radii, spacing } from '@/constants/theme';
+import { Milestone, JourneyStage } from '@/data/demo';
 import { useDemoStore } from '@/store/use-demo-store';
+
+const ROW_HEIGHT = 154;
+const NODE_CENTER_Y = 42;
 
 export default function JourneyScreen() {
   const startup = useDemoStore((state) => state.startup);
@@ -13,50 +18,143 @@ export default function JourneyScreen() {
   const metrics = useDemoStore((state) => state.metrics);
   const active = milestones.find((item) => item.status === 'in_progress') ?? milestones.find((item) => item.status === 'available');
   return <ScrollView style={styles.page} contentContainerStyle={styles.content}>
-    <View style={styles.greeting}><View><AppText variant="caption" color={colors.primary} style={styles.overline}>YOUR STARTUP JOURNEY</AppText><AppText variant="title">Good morning, founder.</AppText></View><View style={styles.avatar}><AppText variant="small" color={colors.primary}>NF</AppText></View></View>
-    <SectionCard style={styles.progressCard}><View style={styles.progressTop}><View><AppText variant="caption" color={colors.inkMuted}>CURRENT STAGE</AppText><AppText variant="headline">{startup?.stage ?? 'Idea'} validation</AppText></View><View style={styles.progressValue}><AppText variant="title" color={colors.primary}>{metrics.progress}%</AppText><AppText variant="caption" color={colors.inkMuted}>complete</AppText></View></View><ProgressBar value={metrics.progress} /><View style={styles.progressBottom}><AppText variant="caption" color={colors.inkMuted}>3 day streak</AppText><AppText variant="caption" color={colors.primary}>Keep going</AppText></View></SectionCard>
-    {active && <SectionCard style={styles.nextCard}><View style={styles.nextHeader}><View style={styles.nextIcon}><Target color={colors.primary} size={18} /></View><View style={styles.nextCopy}><AppText variant="caption" color={colors.primary}>NEXT BEST ACTION</AppText><AppText variant="headline">{active.title}</AppText><AppText variant="small" color={colors.inkMuted}>{active.subtitle}</AppText></View></View><AppButton label="Continue" icon={ArrowRight} onPress={() => active.lessonId ? router.push(`/lesson/${active.lessonId}`) : undefined} /></SectionCard>}
-    <View style={styles.sectionTitle}><AppText variant="headline">Your roadmap</AppText><AppText variant="small" color={colors.inkMuted}>{milestones.filter((item) => item.status === 'completed').length} of {milestones.length} milestones</AppText></View>
-    <View style={styles.roadmap}>{stages.map((stage) => <StageSection key={stage} stage={stage} milestones={milestones.filter((item) => item.stage === stage)} />)}</View>
-    <View style={styles.coachHint}><Sparkles color={colors.primary} size={18} /><View style={{ flex: 1 }}><AppText variant="small" style={{ fontWeight: '700' }}>Your Coach is ready when you are.</AppText><AppText variant="caption" color={colors.inkMuted}>Get feedback on any startup artifact.</AppText></View><Pressable accessibilityRole="button" accessibilityLabel="Open Coach" onPress={() => router.push('/coach')}><AppText variant="small" color={colors.primary}>Open</AppText></Pressable></View>
+    <View style={styles.hero}>
+      <Cloud color="#FFFFFF" fill="#FFFFFF" size={82} strokeWidth={1.5} style={styles.heroCloudOne} />
+      <Cloud color="#DDF5FF" fill="#DDF5FF" size={68} strokeWidth={1.5} style={styles.heroCloudTwo} />
+      <View style={styles.heroTop}>
+        <View style={styles.heroCopy}>
+          <AppText variant="caption" color="#FFFFFF" style={styles.overline}>YOUR STARTUP JOURNEY</AppText>
+          <AppText variant="title" color="#FFFFFF">Build {startup?.name ?? 'your startup'}.</AppText>
+          <AppText variant="small" color="#EEF8FF">One small step at a time, all the way to launch.</AppText>
+        </View>
+        <View style={styles.sun}><Sun color={colors.amber} fill="#FFF4B9" size={27} /></View>
+      </View>
+      <View style={styles.heroProgress}>
+        <View style={styles.heroProgressTop}><AppText variant="caption" color="#FFFFFF">JOURNEY PROGRESS</AppText><AppText variant="headline" color="#FFFFFF">{metrics.progress}%</AppText></View>
+        <ProgressBar value={metrics.progress} />
+        <View style={styles.heroProgressBottom}><AppText variant="caption" color="#E5F6FF">Validate stage</AppText><View style={styles.streak}><Sparkles color={colors.amber} size={13} /><AppText variant="caption" color="#FFF9D2">3 day streak</AppText></View></View>
+      </View>
+    </View>
+
+    {active && <SectionCard style={styles.nextCard}><View style={styles.nextHeader}><View style={styles.nextIcon}><Target color={colors.coral} size={20} /></View><View style={styles.nextCopy}><AppText variant="caption" color={colors.coral}>NEXT BEST ACTION</AppText><AppText variant="headline">{active.title}</AppText><AppText variant="small" color={colors.inkMuted}>{active.subtitle}</AppText></View></View><AppButton label="Continue" icon={ArrowRight} onPress={() => openMilestone(active)} disabled={!active.lessonId && !active.artifactId} /></SectionCard>}
+
+    <View style={styles.sectionTitle}><View><AppText variant="headline">Your path to launch</AppText><AppText variant="small" color={colors.inkMuted}>Follow the trail. Each stop makes your startup clearer.</AppText></View><View style={styles.milestoneCount}><Flag color={colors.primary} size={15} /><AppText variant="caption" color={colors.primary}>{milestones.filter((item) => item.status === 'completed').length}/{milestones.length}</AppText></View></View>
+    <Roadmap milestones={milestones} />
+
+    <View style={styles.coachHint}><View style={styles.coachSpark}><Sparkles color={colors.white} size={17} /></View><View style={{ flex: 1 }}><AppText variant="small" style={{ fontWeight: '700' }}>Your Coach is waiting at the next stop.</AppText><AppText variant="caption" color={colors.inkMuted}>Get feedback on any startup artifact.</AppText></View><Pressable accessibilityRole="button" accessibilityLabel="Open Coach" onPress={() => router.push('/coach')}><AppText variant="small" color={colors.primary}>Open</AppText></Pressable></View>
   </ScrollView>;
 }
 
-function StageSection({ stage, milestones }: { stage: JourneyStage; milestones: ReturnType<typeof useDemoStore.getState>['milestones'] }) {
-  if (!milestones.length) return null;
-  return <View style={styles.stage}><View style={styles.stageTitle}><AppText variant="caption" color={colors.inkMuted} style={styles.stageLabel}>{stage.toUpperCase()}</AppText><View style={styles.stageLine} /></View>{milestones.map((milestone, index) => <View key={milestone.id} style={styles.milestoneRow}><View style={styles.nodeColumn}><View style={[styles.node, milestone.status === 'completed' && styles.nodeDone, milestone.status === 'in_progress' && styles.nodeActive, milestone.status === 'locked' && styles.nodeLocked]}>{milestone.status === 'completed' ? <Check color={colors.white} size={14} strokeWidth={3} /> : milestone.status === 'locked' ? <LockKeyhole color={colors.inkSoft} size={13} /> : <View style={styles.nodeInner} />}</View>{index < milestones.length - 1 && <View style={[styles.connector, milestone.status === 'completed' && styles.connectorDone]} />}</View><View style={styles.milestoneCopy}><View style={styles.milestoneTop}><AppText variant="body" style={milestone.status === 'locked' && { color: colors.inkMuted }}>{milestone.title}</AppText>{milestone.status === 'completed' ? <StatusBadge label="Done" tone="success" /> : milestone.status === 'in_progress' ? <StatusBadge label="In progress" tone="warning" /> : milestone.status === 'locked' ? <StatusBadge label="Locked" tone="locked" /> : <StatusBadge label="Next" />}</View><AppText variant="small" color={colors.inkMuted}>{milestone.subtitle}</AppText></View></View>)}</View>;
+function Roadmap({ milestones }: { milestones: Milestone[] }) {
+  const [roadmapWidth, setRoadmapWidth] = useState(0);
+  const height = milestones.length * ROW_HEIGHT;
+  const points = milestones.map((_, index) => ({ x: index % 2 === 0 ? roadmapWidth * 0.28 : roadmapWidth * 0.72, y: NODE_CENTER_Y + index * ROW_HEIGHT }));
+  const path = points.length && roadmapWidth ? buildPath(points) : '';
+
+  return <View style={[styles.roadmapCanvas, { height }]} onLayout={(event) => setRoadmapWidth(event.nativeEvent.layout.width)}>
+    <Cloud color="#FFFFFF" fill="#FFFFFF" size={76} strokeWidth={1.5} style={styles.cloudOne} />
+    <Cloud color="#DDF5FF" fill="#DDF5FF" size={60} strokeWidth={1.5} style={styles.cloudTwo} />
+    {path && <Svg width="100%" height={height} style={StyleSheet.absoluteFill} pointerEvents="none"><Path d={path} fill="none" stroke="#FFFFFF" strokeWidth={26} strokeLinecap="round" strokeLinejoin="round" /><Path d={path} fill="none" stroke="#9BDDF6" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" /></Svg>}
+    {milestones.map((milestone, index) => <RoadmapNode key={milestone.id} milestone={milestone} index={index} />)}
+  </View>;
+}
+
+function RoadmapNode({ milestone, index }: { milestone: Milestone; index: number }) {
+  const Icon = milestoneIcon(milestone.stage);
+  const canOpen = milestone.status === 'locked' || Boolean(milestone.lessonId || milestone.artifactId);
+  return <View style={[styles.nodeRow, { top: index * ROW_HEIGHT }]}>
+    <View style={[styles.nodeCluster, index % 2 === 1 && styles.nodeClusterRight]}>
+      <Pressable accessibilityRole={canOpen ? 'button' : 'text'} accessibilityLabel={`${milestone.title}, ${milestone.status.replace('_', ' ')}`} accessibilityState={{ disabled: milestone.status === 'locked' }} onPress={canOpen ? () => openMilestone(milestone) : undefined} style={({ pressed }) => [styles.nodeButton, nodeButtonStyle(milestone.status), pressed && canOpen && milestone.status !== 'locked' && styles.pressed]}>
+        {milestone.status === 'completed' ? <Check color={colors.white} size={25} strokeWidth={3.5} /> : milestone.status === 'locked' ? <LockKeyhole color={colors.inkSoft} size={22} /> : <Icon color={colors.white} size={25} strokeWidth={2.5} />}
+      </Pressable>
+      <View style={styles.nodeLabel}>
+        <AppText variant="caption" color={stageColor(milestone.stage)} style={styles.nodeStage}>{milestone.stage.toUpperCase()}</AppText>
+        <AppText variant="small" style={milestone.status === 'locked' ? styles.lockedTitle : styles.nodeTitle}>{milestone.title}</AppText>
+        <StatusBadge label={milestone.status === 'completed' ? 'Done' : milestone.status === 'in_progress' ? 'Current stop' : milestone.status === 'locked' ? 'Locked' : 'Next stop'} tone={milestone.status === 'completed' ? 'success' : milestone.status === 'in_progress' ? 'warning' : milestone.status === 'locked' ? 'locked' : 'neutral'} />
+      </View>
+    </View>
+  </View>;
+}
+
+function openMilestone(milestone: Milestone) {
+  if (milestone.status === 'locked') {
+    Alert.alert('Milestone locked', 'Complete the previous stop to unlock this part of the journey.');
+    return;
+  }
+  if (milestone.lessonId) router.push(`/lesson/${milestone.lessonId}`);
+  else if (milestone.artifactId) router.push(`/artifact/${milestone.artifactId}`);
+}
+
+function milestoneIcon(stage: JourneyStage) {
+  if (stage === 'Idea') return Lightbulb;
+  if (stage === 'Validate') return UsersRound;
+  if (stage === 'Plan') return Blocks;
+  if (stage === 'Build') return Rocket;
+  if (stage === 'Launch') return Megaphone;
+  return TrendingUp;
+}
+
+function stageColor(stage: JourneyStage) {
+  if (stage === 'Idea') return colors.amber;
+  if (stage === 'Validate') return colors.coral;
+  if (stage === 'Plan') return colors.primary;
+  if (stage === 'Build') return colors.blue;
+  if (stage === 'Launch') return colors.pink;
+  return colors.primaryDark;
+}
+
+function nodeButtonStyle(status: Milestone['status']) {
+  if (status === 'completed') return styles.nodeComplete;
+  if (status === 'in_progress') return styles.nodeCurrent;
+  if (status === 'available') return styles.nodeAvailable;
+  return styles.nodeLocked;
+}
+
+function buildPath(points: { x: number; y: number }[]) {
+  return points.reduce((path, point, index) => {
+    if (index === 0) return `M ${point.x} ${point.y}`;
+    const previous = points[index - 1];
+    const middleY = (previous.y + point.y) / 2;
+    return `${path} C ${previous.x} ${middleY - 26}, ${point.x} ${middleY + 26}, ${point.x} ${point.y}`;
+  }, '');
 }
 
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.canvas },
-  content: { padding: spacing.xl, paddingBottom: 126, maxWidth: 620, width: '100%', alignSelf: 'center' },
-  greeting: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.xl },
-  overline: { letterSpacing: 1.2, fontWeight: '800', marginBottom: spacing.sm },
-  avatar: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
-  progressCard: { gap: spacing.md },
-  progressTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-  progressValue: { alignItems: 'flex-end' },
-  progressBottom: { flexDirection: 'row', justifyContent: 'space-between' },
-  nextCard: { marginTop: spacing.md, gap: spacing.lg, backgroundColor: colors.primarySoft, borderColor: '#C7E3D9' },
+  content: { padding: spacing.lg, paddingBottom: 126, maxWidth: 620, width: '100%', alignSelf: 'center' },
+  hero: { minHeight: 226, overflow: 'hidden', borderRadius: 24, padding: spacing.xl, backgroundColor: colors.blue, position: 'relative' },
+  heroCloudOne: { position: 'absolute', right: -18, top: -16, opacity: 0.94 },
+  heroCloudTwo: { position: 'absolute', left: -12, bottom: -18, opacity: 0.82 },
+  heroTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  heroCopy: { flex: 1, gap: spacing.sm },
+  overline: { letterSpacing: 1.2, fontWeight: '800' },
+  sun: { width: 50, height: 50, borderRadius: 25, backgroundColor: '#FFF4B9', alignItems: 'center', justifyContent: 'center' },
+  heroProgress: { marginTop: spacing.xxl, gap: spacing.sm },
+  heroProgressTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  heroProgressBottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  streak: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  nextCard: { marginTop: spacing.md, gap: spacing.lg, backgroundColor: colors.coralSoft, borderColor: '#FFD0C8', borderRadius: 18 },
   nextHeader: { flexDirection: 'row', gap: spacing.md },
-  nextIcon: { width: 36, height: 36, borderRadius: 10, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
+  nextIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   nextCopy: { flex: 1, gap: 3 },
-  sectionTitle: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: spacing.xxxl, marginBottom: spacing.lg },
-  roadmap: { gap: spacing.lg },
-  stage: { gap: spacing.sm },
-  stageTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  stageLabel: { letterSpacing: 1, fontWeight: '800' },
-  stageLine: { height: 1, flex: 1, backgroundColor: colors.line },
-  milestoneRow: { flexDirection: 'row', minHeight: 72 },
-  nodeColumn: { width: 28, alignItems: 'center' },
-  node: { width: 25, height: 25, borderRadius: 13, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
-  nodeDone: { backgroundColor: colors.primary, borderColor: colors.primary },
-  nodeActive: { borderColor: colors.primary, borderWidth: 2 },
-  nodeLocked: { backgroundColor: colors.surfaceMuted },
-  nodeInner: { width: 7, height: 7, borderRadius: 4, backgroundColor: colors.primary },
-  connector: { width: 1, flex: 1, backgroundColor: colors.line, marginTop: -1 },
-  connectorDone: { backgroundColor: colors.primary },
-  milestoneCopy: { flex: 1, marginLeft: spacing.md, gap: 3, paddingBottom: spacing.lg },
-  milestoneTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.sm },
-  coachHint: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg, padding: spacing.lg, borderRadius: 12, backgroundColor: colors.surfaceMuted },
+  sectionTitle: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.xxl, marginBottom: spacing.md },
+  milestoneCount: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radii.pill, backgroundColor: colors.primarySoft },
+  roadmapCanvas: { position: 'relative', overflow: 'hidden', borderRadius: 24, backgroundColor: '#CFF0FF', borderWidth: 1, borderColor: '#B9E7FA' },
+  cloudOne: { position: 'absolute', top: 18, left: -18, opacity: 0.76 },
+  cloudTwo: { position: 'absolute', bottom: 4, right: -14, opacity: 0.72 },
+  nodeRow: { position: 'absolute', left: 0, right: 0, height: ROW_HEIGHT, paddingTop: 10 },
+  nodeCluster: { width: '56%', alignItems: 'center' },
+  nodeClusterRight: { alignSelf: 'flex-end' },
+  nodeButton: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', borderWidth: 5, borderColor: '#FFFFFF' },
+  nodeComplete: { backgroundColor: colors.primary },
+  nodeCurrent: { backgroundColor: colors.coral },
+  nodeAvailable: { backgroundColor: colors.amber },
+  nodeLocked: { backgroundColor: '#EEF5F8', borderColor: '#FFFFFF' },
+  nodeLabel: { alignItems: 'center', gap: 3, marginTop: spacing.sm, maxWidth: 150 },
+  nodeStage: { fontWeight: '800', letterSpacing: 0.8 },
+  nodeTitle: { fontWeight: '800', textAlign: 'center' },
+  lockedTitle: { color: colors.inkMuted, textAlign: 'center' },
+  pressed: { opacity: 0.72 },
+  coachHint: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg, padding: spacing.lg, borderRadius: 18, backgroundColor: colors.surfaceMuted },
+  coachSpark: { width: 34, height: 34, borderRadius: 12, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
 });
