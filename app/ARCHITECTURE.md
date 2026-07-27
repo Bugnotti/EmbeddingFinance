@@ -38,6 +38,15 @@ Browser responsive mode is a viewport preview, not a true iOS simulator. It does
 not reproduce native keyboard, gestures, safe areas, fonts, or platform behavior
 perfectly. Final UI checks should happen on the real iPhone.
 
+### Expo Go compatibility note
+
+The mockup currently targets **Expo SDK 54** for physical iPhone testing. During
+the current SDK 57 transition, Expo's project guidance recommends SDK 54 for
+projects opened in Expo Go on a physical device. SDK 57 may be appropriate for a
+development build or simulator, but it can produce the Expo Go message that the
+project and client use different protocols. Verify the installed Expo Go support
+before upgrading the SDK.
+
 Official references:
 
 - [Create an Expo application](https://docs.expo.dev/tutorial/create-your-first-app/)

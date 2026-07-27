@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { Artifact, defaultArtifacts, defaultStartup, demoMetrics, Milestone, roadmap, Startup } from '@/data/demo';
+import { completeTaskTransition } from '@/domain/progress';
 
 type DemoState = {
   hydrated: boolean;
@@ -36,9 +37,10 @@ export const useDemoStore = create<DemoState>()(
       completeOnboarding: (startup) => set({ onboardingComplete: true, startup, milestones: roadmap }),
       saveTaskDraft: (draft) => set((state) => ({ taskDraft: { ...state.taskDraft, ...draft } })),
       completeTask: (taskId) => set((state) => {
-        if (taskId !== 'write-assumption' || state.milestones.find((item) => item.id === 'assumption')?.status === 'completed') return state;
+        const milestones = completeTaskTransition(state.milestones, taskId);
+        if (milestones === state.milestones) return state;
         return {
-          milestones: state.milestones.map((item) => item.id === 'assumption' ? { ...item, status: 'completed', progress: 100 } : item.id === 'interviews' ? { ...item, status: 'in_progress' } : item),
+          milestones,
           metrics: { ...state.metrics, progress: 45, artifacts: Math.max(state.metrics.artifacts, 1) },
           artifacts: state.artifacts.map((item) => item.id === 'value-proposition' ? { ...item, status: 'draft' } : item),
         };

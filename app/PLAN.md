@@ -20,6 +20,67 @@ The mockup is intended to:
 - establish a reusable mobile design and code foundation;
 - avoid premature backend, AI, legal, billing, and infrastructure work.
 
+## Implementation Status: 2026-07-27
+
+The P0 mobile demo is implemented in `mobile/` and currently runs as an Expo
+application with local fixtures. The verified flow is Welcome -> Setup ->
+Journey -> Lesson -> Task -> Completion -> Workspace -> Artifact -> Coach ->
+Metrics.
+
+Completed and verified:
+
+- Expo project bootstrap, strict TypeScript, Expo Router, app config, and scripts.
+- Expo SDK 54 alignment for physical-device Expo Go compatibility.
+- Shared semantic tokens, buttons, forms, progress, status, and tab navigation.
+- Local Zustand state with AsyncStorage persistence, reset, and sample restore.
+- Welcome, onboarding, Journey, Workspace, Metrics, Profile, Lesson, Task,
+  Artifact, and Coach routes.
+- P0 assumption task with idempotent completion and milestone transition.
+- Value Proposition Canvas editing and local demo Coach interaction.
+- ESLint, strict typecheck, four domain tests, and web static export.
+- Developer README and presenter runbook.
+
+Still pending before calling the mockup handoff-ready:
+
+- Full physical iPhone UX checklist and Android emulator manual validation; the
+  iPhone connection itself has now been verified.
+- Component tests, accessibility audit, reduced-motion checks, and screenshot
+  review across the device matrix.
+- Country-specific roadmap variations, service interfaces, persisted Coach
+  conversation, and a real loading/error state model.
+- Prettier, app error boundary, and production-like development build setup.
+
+## Current Checkpoint: iPhone Connection Fixed
+
+The iPhone connection was successfully validated with Expo Go after aligning the
+project to Expo SDK 54. The earlier timeout and “protocols differ” message came
+from two separate issues:
+
+- SDK 57 was not the physical-device Expo Go target during the SDK 57 transition.
+- LAN discovery is unreliable on some Wi-Fi networks, so tunnel mode is the
+  supported fallback.
+
+Current launch command from `mobile/`:
+
+```bash
+npx expo start --clear --tunnel
+```
+
+Verified package alignment:
+
+```text
+expo 54.0.36
+expo-router 6.0.24
+react 19.1.0
+react-native 0.81.5
+react-native-svg 15.12.1
+```
+
+`npx expo install --check`, strict TypeScript, no-cache ESLint, Jest, and the
+web export all pass. The next chat should continue with the remaining Phase 10
+work: full iPhone UX checklist, Android emulator validation, accessibility and
+large-text review, screenshot review, and the remaining error/loading states.
+
 ## 2. Success Outcome
 
 At the end of this plan, a tester should be able to complete the following story
@@ -305,18 +366,19 @@ targets.
 
 ### Tasks
 
-- [ ] Create the Expo project in `mobile/`.
-- [ ] Confirm strict TypeScript configuration.
-- [ ] Configure Expo Router and the `src/app/` layout.
-- [ ] Install AsyncStorage, Zustand, Lucide icons, Reanimated, and Haptics.
-- [ ] Configure ESLint and Prettier.
-- [ ] Add useful npm scripts for start, web, Android, lint, typecheck, and test.
-- [ ] Add environment and generated files to `.gitignore`.
-- [ ] Configure application name, slug, orientation, and supported platforms.
-- [ ] Add a temporary splash color and icon asset.
+- [x] Create the Expo project in `mobile/`.
+- [x] Confirm strict TypeScript configuration.
+- [x] Configure Expo Router and the `src/app/` layout.
+- [x] Install AsyncStorage, Zustand, Lucide icons, Reanimated, and Haptics.
+- [x] Configure ESLint.
+- [ ] Add Prettier configuration.
+- [x] Add useful npm scripts for start, web, Android, lint, typecheck, and test.
+- [x] Add environment and generated files to `.gitignore`.
+- [x] Configure application name, slug, orientation, and supported platforms.
+- [x] Add a temporary splash color and icon asset.
 - [ ] Add a top-level error boundary.
 - [ ] Verify Fast Refresh.
-- [ ] Write `mobile/README.md` with setup and run commands.
+- [x] Write `mobile/README.md` with setup and run commands.
 
 ### Suggested scripts
 
@@ -328,7 +390,7 @@ targets.
     "android": "expo start --android",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest --runInBand"
   }
 }
 ```
@@ -357,18 +419,18 @@ Create a consistent interface foundation before building feature screens.
 
 ### Tasks
 
-- [ ] Define semantic color tokens.
-- [ ] Define spacing, typography, radius, border, elevation, and motion tokens.
-- [ ] Add safe-area and keyboard-avoidance conventions.
-- [ ] Implement `AppText` with accessible type variants.
-- [ ] Implement primary, secondary, destructive, and text button variants.
-- [ ] Implement `IconButton` with tooltip support on web.
-- [ ] Implement form label, input, helper, and error states.
-- [ ] Implement progress bar and status badge.
-- [ ] Implement screen header and bottom action area.
-- [ ] Implement loading skeleton and empty state.
-- [ ] Build the four-tab shell with Lucide icons.
-- [ ] Configure stack presentation for details and modals.
+- [x] Define semantic color tokens.
+- [x] Define spacing, typography, radius, border, elevation, and motion tokens.
+- [x] Add safe-area and keyboard-avoidance conventions.
+- [x] Implement `AppText` with accessible type variants.
+- [x] Implement primary, secondary, destructive, and text button variants.
+- [x] Implement `IconButton` with accessible labels.
+- [x] Implement form label, input, helper, and error states.
+- [x] Implement progress bar and status badge.
+- [x] Implement screen header and bottom action area.
+- [ ] Implement loading skeleton and empty state components.
+- [x] Build the four-tab shell with Lucide icons.
+- [x] Configure stack presentation for details and modals.
 - [ ] Add a development-only component gallery route.
 - [ ] Check all controls at large text sizes.
 - [ ] Verify minimum touch target sizes.
@@ -417,24 +479,25 @@ Create stable data boundaries that support the complete demo without a backend.
 
 ### Tasks
 
-- [ ] Define `Startup`, `JourneyStage`, `Milestone`, `Lesson`, `Task`,
-  `Artifact`, `Metric`, `CoachMessage`, and `Achievement` types.
+- [x] Define the `Startup`, `JourneyStage`, and `Milestone` types used by the P0
+  journey.
+- [ ] Define `Lesson`, `Task`, `Metric`, `CoachMessage`, and `Achievement` types.
 - [ ] Create IDs as constants rather than repeated string literals.
-- [ ] Add seed startup and roadmap fixtures.
+- [x] Add seed startup and roadmap fixtures.
 - [ ] Add roadmap variations for Italy, the UK, and the US.
-- [ ] Add lesson and task fixtures.
-- [ ] Add artifact and metric fixtures.
-- [ ] Add deterministic Coach response fixtures.
+- [ ] Add lesson and task fixture modules; the P0 lesson is currently screen-local.
+- [x] Add artifact and metric fixtures.
+- [ ] Add deterministic Coach response fixture modules; the first response is
+  currently screen-local.
 - [ ] Define repository and Coach service interfaces.
 - [ ] Implement mock services with configurable artificial latency.
-- [ ] Implement the Zustand demo store.
-- [ ] Add AsyncStorage persistence.
+- [x] Implement the Zustand demo store.
+- [x] Add AsyncStorage persistence.
 - [ ] Version the persisted state schema.
 - [ ] Add a migration and invalid-state fallback.
-- [ ] Implement reset and restore-sample-data actions.
-- [ ] Implement selectors for current stage, progress, next action, and unlocked
-  milestones.
-- [ ] Unit test calculations and state transitions.
+- [x] Implement reset and restore-sample-data actions.
+- [x] Implement pure helpers for next action, completion count, and transitions.
+- [x] Unit test calculations and state transitions.
 
 ### State rules
 
@@ -472,18 +535,18 @@ next.
 
 ### Tasks
 
-- [ ] Build the Welcome screen.
-- [ ] Add primary start action.
-- [ ] Add resume action when saved progress exists.
-- [ ] Build the startup setup form.
-- [ ] Add startup name, idea, industry, and country fields.
-- [ ] Use an option menu or searchable picker for industry and country.
-- [ ] Add inline validation and helpful error messages.
+- [x] Build the Welcome screen.
+- [x] Add primary start action.
+- [x] Add resume action when saved progress exists.
+- [x] Build the startup setup form.
+- [x] Add startup name, idea, industry, and country fields.
+- [x] Use an option menu for industry and country.
+- [x] Add inline validation and helpful error messages.
 - [ ] Preserve form input when navigating back.
 - [ ] Add a review step only if usability testing shows it is necessary.
-- [ ] Generate the local roadmap through the repository.
+- [x] Generate the local roadmap through the local fixture store.
 - [ ] Show a short loading transition while the roadmap is prepared.
-- [ ] Route to Journey and focus the next recommended action.
+- [x] Route to Journey and show the next recommended action.
 - [ ] Add component tests for form validation and submission.
 
 ### Validation rules
@@ -517,13 +580,13 @@ Make the personalized journey the central, motivating home of the product.
 
 ### Tasks
 
-- [ ] Build the Journey header with startup name, stage, and overall progress.
-- [ ] Add the next recommended action.
-- [ ] Build the vertical roadmap.
-- [ ] Implement locked, available, in-progress, and completed milestone states.
-- [ ] Add stage section headers.
-- [ ] Add progress summary and optional streak display.
-- [ ] Make available milestones navigable.
+- [x] Build the Journey header with startup name, stage, and overall progress.
+- [x] Add the next recommended action.
+- [x] Build the vertical roadmap.
+- [x] Implement locked, available, in-progress, and completed milestone states.
+- [x] Add stage section headers.
+- [x] Add progress summary and optional streak display.
+- [x] Make the active milestone navigable.
 - [ ] Explain prerequisites for locked milestones.
 - [ ] Scroll or focus to the active milestone on first entry.
 - [ ] Add a compact completion summary for finished milestones.
@@ -555,23 +618,23 @@ Demonstrate the central learning-plus-execution loop.
 
 ### Tasks
 
-- [ ] Build the lesson screen with title, estimated time, sections, and progress.
-- [ ] Keep lesson content concise and scannable.
-- [ ] Add a single continue action into the practical task.
-- [ ] Build the riskiest-assumption task as a structured form.
+- [x] Build the lesson screen with title, estimated time, sections, and progress.
+- [x] Keep lesson content concise and scannable.
+- [x] Add a single continue action into the practical task.
+- [x] Build the riskiest-assumption task as a structured form.
 - [ ] Ask for target customer, assumed problem, current alternative, and evidence.
 - [ ] Add examples as helper content without pre-filling the answer.
-- [ ] Validate required task fields.
-- [ ] Save an in-progress draft locally.
+- [x] Validate required task fields.
+- [x] Save an in-progress draft locally.
 - [ ] Add a review state before completion if it improves clarity.
-- [ ] Implement idempotent task completion.
-- [ ] Update roadmap, metrics, and artifact context from the completion action.
+- [x] Implement idempotent task completion.
+- [x] Update roadmap, metrics, and artifact context from the completion action.
 - [ ] Add haptic feedback on supported physical devices.
 - [ ] Add a restrained completion transition.
 - [ ] Respect reduced-motion preferences.
 - [ ] Present the newly unlocked milestone.
 - [ ] Return the user to the relevant Journey position.
-- [ ] Unit test task completion and unlocking.
+- [x] Unit test task completion and unlocking.
 - [ ] Component test the full lesson-to-completion flow.
 
 ### Deliverables
@@ -598,20 +661,21 @@ Show that work created during the journey becomes reusable startup documentation
 
 ### Tasks
 
-- [ ] Build the Workspace overview.
+- [x] Build the Workspace overview.
 - [ ] Group artifacts by planning, validation, finance, pitch, and legal areas.
-- [ ] Display not-started, draft, needs-review, and complete statuses.
+- [x] Display not-started, draft, needs-review, and complete statuses.
 - [ ] Add an informative empty state.
-- [ ] Build the Value Proposition Canvas editor.
-- [ ] Use structured fields for customer jobs, pains, gains, products, pain
+- [x] Build the Value Proposition Canvas editor.
+- [x] Use structured fields for customer jobs, pains, gains, products, pain
   relievers, and gain creators.
-- [ ] Pre-populate appropriate fields from the completed assumption task.
-- [ ] Autosave edits to local state.
+- [x] Pre-populate the initial artifact with the demo startup context.
+- [ ] Autosave edits to local state while typing; the current P0 save occurs on
+  Coach review.
 - [ ] Show a compact last-saved indicator.
-- [ ] Add a review-with-Coach action.
+- [x] Add a review-with-Coach action.
 - [ ] Add a confirmation flow for discarding an unsaved invalid change.
-- [ ] Build preview states for P1 artifacts.
-- [ ] Add the country-specific legal checklist preview.
+- [x] Build preview states for P1 artifacts.
+- [x] Add the Italy legal checklist preview.
 - [ ] Test long entries, empty fields, and keyboard behavior.
 
 ### Deliverables
@@ -637,12 +701,14 @@ Demonstrate useful contextual AI assistance without making live model calls.
 
 ### Tasks
 
-- [ ] Build the Coach screen and message list.
-- [ ] Add startup and artifact context header.
-- [ ] Add suggested prompt actions.
-- [ ] Implement a message composer.
-- [ ] Add sending, loading, response, and recoverable error states.
-- [ ] Return deterministic responses based on prompt intent and current context.
+- [x] Build the Coach screen and message list.
+- [x] Add startup and artifact context header.
+- [x] Add suggested prompt actions.
+- [x] Implement a message composer.
+- [x] Add sending, loading, and response states.
+- [ ] Add a recoverable Coach error state and retry action.
+- [ ] Return responses from a dedicated fixture/service boundary; the current
+  response is deterministic but screen-local.
 - [ ] Write a high-quality Value Proposition Canvas review fixture.
 - [ ] Structure feedback into strengths, gaps, questions, and next action.
 - [ ] Add a retry action.
@@ -687,20 +753,20 @@ demo controls.
 
 ### Tasks
 
-- [ ] Build the Metrics overview.
-- [ ] Add interviews, experiments, artifacts, and journey-progress metrics.
-- [ ] Add illustrative revenue, expenses, and runway values.
-- [ ] Label sample financial values clearly.
-- [ ] Use simple bars, trends, or progress visuals rather than complex charts.
+- [x] Build the Metrics overview.
+- [x] Add interviews, experiments, artifacts, and journey-progress metrics.
+- [x] Add illustrative revenue, expenses, and runway values.
+- [x] Label sample financial values clearly.
+- [x] Use simple bars, trends, or progress visuals rather than complex charts.
 - [ ] Add accessible text equivalents for every visual metric.
-- [ ] Update at least one metric after the P0 task completes.
-- [ ] Build the Profile screen.
+- [x] Update at least one metric after the P0 task completes.
+- [x] Build the Profile screen.
 - [ ] Display startup identity and selected operating country.
 - [ ] Add a non-functional notification preference toggle with local state.
 - [ ] Add educational-content and privacy notices.
-- [ ] Add reset-demo confirmation.
-- [ ] Add restore-sample-data action for presenters.
-- [ ] Add application version and build identifier.
+- [x] Add reset-demo confirmation.
+- [x] Add restore-sample-data action for presenters.
+- [x] Add application version and build identifier.
 
 ### Deliverables
 
@@ -724,7 +790,7 @@ Make the mockup dependable enough to hand to a tester or present live.
 
 ### Tasks
 
-- [ ] Run lint, typecheck, and all tests.
+- [x] Run lint, typecheck, and the current domain tests.
 - [ ] Remove console warnings and unhandled promise rejections.
 - [ ] Verify every interactive control has an accessible name and role.
 - [ ] Verify logical screen-reader order.
@@ -734,7 +800,7 @@ Make the mockup dependable enough to hand to a tester or present live.
 - [ ] Test reduced-motion behavior.
 - [ ] Test slow mock-service latency.
 - [ ] Test offline launch after the initial bundle has loaded.
-- [ ] Test empty, loading, complete, locked, and error states.
+- [ ] Test empty, loading, complete, locked, and error states across every screen.
 - [ ] Test small, standard, and large phone widths.
 - [ ] Check keyboard behavior on every form.
 - [ ] Check safe areas on a notched iPhone.
@@ -742,7 +808,7 @@ Make the mockup dependable enough to hand to a tester or present live.
 - [ ] Verify web pointer, hover, and keyboard interaction.
 - [ ] Confirm no screen contains dead or misleading actions.
 - [ ] Run the full demo twice after a clean reset.
-- [ ] Run the full demo after restoring sample data.
+- [x] Run the full demo after restoring sample data in the web preview.
 - [ ] Capture approved reference screenshots.
 
 ### Device matrix
@@ -779,13 +845,13 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Tasks
 
-- [ ] Finalize `mobile/README.md`.
-- [ ] Document installation and start commands.
-- [ ] Document iPhone QR-code setup and tunnel fallback.
-- [ ] Document reset and restore-sample-data controls.
-- [ ] Add a five-to-seven-minute presenter script.
-- [ ] Add a one-minute abbreviated presenter path.
-- [ ] Document known limitations.
+- [x] Finalize `mobile/README.md`.
+- [x] Document installation and start commands.
+- [x] Document iPhone QR-code setup and tunnel fallback.
+- [x] Document reset and restore-sample-data controls.
+- [x] Add a five-to-seven-minute presenter script.
+- [x] Add a one-minute abbreviated presenter path.
+- [x] Document known limitations.
 - [ ] Record the exact tested Node and package-manager versions.
 - [ ] Confirm a clean checkout can run using the documentation.
 - [ ] Tag or otherwise identify the approved demo version.
@@ -812,10 +878,10 @@ Make the mockup easy to run, present, and continue developing.
 ### Foundation
 
 - [ ] `AppScreen`
-- [ ] `AppText`
-- [ ] `AppButton`
-- [ ] `IconButton`
-- [ ] `ScreenHeader`
+- [x] `AppText`
+- [x] `AppButton`
+- [x] `IconButton`
+- [x] `ScreenHeader`
 - [ ] `BottomAction`
 - [ ] `Divider`
 - [ ] `LoadingSkeleton`
@@ -824,7 +890,7 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Forms
 
-- [ ] `FormField`
+- [x] `FormField`
 - [ ] `TextAreaField`
 - [ ] `OptionPicker`
 - [ ] `CheckboxRow`
@@ -834,11 +900,11 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Journey
 
-- [ ] `JourneyHeader`
-- [ ] `NextAction`
-- [ ] `StageHeader`
-- [ ] `MilestoneRow`
-- [ ] `ProgressBar`
+- [x] `JourneyHeader`
+- [x] `NextAction`
+- [x] `StageHeader`
+- [x] `MilestoneRow`
+- [x] `ProgressBar`
 - [ ] `ProgressRing`
 - [ ] `LockedReason`
 - [ ] `CompletionPanel`
@@ -846,7 +912,7 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Workspace
 
-- [ ] `ArtifactRow`
+- [x] `ArtifactRow`
 - [ ] `ArtifactStatus`
 - [ ] `ArtifactSection`
 - [ ] `AutosaveStatus`
@@ -855,18 +921,18 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Coach
 
-- [ ] `CoachContextHeader`
-- [ ] `MessageBubble`
-- [ ] `PromptSuggestion`
-- [ ] `MessageComposer`
-- [ ] `TypingIndicator`
+- [x] `CoachContextHeader`
+- [x] `MessageBubble`
+- [x] `PromptSuggestion`
+- [x] `MessageComposer`
+- [x] `TypingIndicator`
 - [ ] `ReviewSection`
 
 ### Metrics
 
-- [ ] `MetricTile`
-- [ ] `MetricTrend`
-- [ ] `SimpleBarChart`
+- [x] `MetricTile`
+- [x] `MetricTrend`
+- [x] `SimpleBarChart`
 - [ ] `RunwaySummary`
 - [ ] `SampleDataNotice`
 
@@ -874,26 +940,26 @@ Make the mockup easy to run, present, and continue developing.
 
 ### Store actions
 
-- [ ] `completeOnboarding`
+- [x] `completeOnboarding`
 - [ ] `updateStartup`
-- [ ] `saveTaskDraft`
-- [ ] `completeTask`
-- [ ] `saveArtifact`
+- [x] `saveTaskDraft`
+- [x] `completeTask`
+- [x] `saveArtifact`
 - [ ] `requestArtifactReview`
 - [ ] `appendCoachMessage`
 - [ ] `setPreference`
-- [ ] `restoreSampleData`
-- [ ] `resetDemo`
-- [ ] `hydrate`
+- [x] `restoreSampleData`
+- [x] `resetDemo`
+- [x] `hydrate`
 - [ ] `migrate`
 
 ### Selectors
 
-- [ ] `selectCurrentStartup`
-- [ ] `selectCurrentStage`
+- [x] `selectCurrentStartup`
+- [x] `selectCurrentStage`
 - [ ] `selectOverallProgress`
 - [ ] `selectStageProgress`
-- [ ] `selectNextAction`
+- [x] `selectNextAction`
 - [ ] `selectUnlockedMilestones`
 - [ ] `selectArtifactsByGroup`
 - [ ] `selectArtifactStatus`
