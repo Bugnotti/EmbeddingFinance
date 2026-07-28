@@ -147,6 +147,18 @@ The first incremental polish pass was completed on 2026-07-28:
   panel, mobile Pixel guidance, startup-aware deterministic responses, guarded
   rapid sends, and a mock failure state with retry that preserves the user’s
   message.
+- Added shared responsive foundation primitives: compact screen headers that
+  reduce secondary copy on phones, a reusable responsive content frame, and
+  live inline notices for demo, save, and status feedback.
+- Applied the foundation to Metrics and Profile with responsive card/layout
+  behavior, accessible metric summaries, clearer sample-data notices, and a
+  cleaner separation between startup identity, settings, and actions.
+- Reduced Journey's narrow-screen density by keeping secondary explanations on
+  wide layouts while preserving the active stop, Pixel guidance, roadmap path,
+  and primary Continue action on phones.
+- Redesigned Journey as a visibly different roadmap-first experience: compact
+  progress header, sky scene, Pixel beside the journey promise, one focused
+  next-action strip, simplified mobile labels, and a gently pulsing active node.
 
 Verification completed for this slice:
 
@@ -170,15 +182,21 @@ Verification completed for this slice:
 - Coach export review: mock status, suggested prompts, message composer, Pixel
   context, and retry-capable response path are present in the generated route;
   no executable `import.meta.env` or uncaught-error text was found.
+- Responsive foundation export review: Metrics and Profile routes contain the
+  compact hierarchy and inline status notices; all 16 static routes export
+  successfully after the shared primitive changes.
+- Journey redesign export review: the generated route contains the new sky scene,
+  streak/progress strip, next-action focus, roadmap path, and Coach prompt;
+  typecheck, lint, and diff validation pass after the visual change.
 - Physical iPhone connection confirmed by the user through Expo Go after
   switching to an LTS Node runtime and installing the Expo tunnel dependency.
 - `npm run typecheck`, `npm run lint`, five Jest tests, and web export all pass.
 
 Responsive work is now a shared rollout rather than an isolated Onboarding fix.
-Welcome, Onboarding, Journey, Lesson, Task, Workspace, Artifact, and Coach now
-have explicit responsive branches or reviewed content widths. Metrics and
-Profile still need the same screen-level treatment, and the whole app still
-needs an interactive phone/desktop screenshot pass before visual approval.
+Welcome, Onboarding, Journey, Lesson, Task, Workspace, Artifact, Coach, Metrics,
+and Profile now have explicit responsive branches or reviewed content widths.
+The UI foundation is in place, but the whole app still needs an interactive
+phone/desktop screenshot pass before visual approval.
 
 ### Verification at pause
 
@@ -220,13 +238,13 @@ port 9223 were stopped before pausing. No audit server should be running.
 
 Resume in this order:
 
-1. Implement the responsive Metrics and Profile slice. Review metric scanning,
-   accessible text equivalents, startup identity, country context, and reset/
-   restore actions.
-2. Run an interactive phone/desktop pass for Workspace, Artifact, and Coach now that
-   the Expo Go connection is working again. Check long entries, keyboard
-   behavior, autosave feedback, filters, long responses, retry, and the Coach
-   entry point.
+1. Extract lessons, tasks, Coach prompts, and artifact definitions into typed
+   fixture modules and service boundaries. Screens should consume domain data
+   instead of owning most of the product copy and response logic.
+2. Run an interactive phone/desktop pass for every route now that the Expo Go
+   connection is working again. Check long entries, keyboard behavior, autosave
+   feedback, filters, long responses, retry, and the primary action on each
+   screen.
 3. Ask for concrete feedback on the least successful elements and compare a
    small number of coherent visual directions before another broad restyle.
 4. Finish the interaction matrix for Coach, Profile alerts, reset and restore,
@@ -923,12 +941,12 @@ demo controls.
 - [x] Add illustrative revenue, expenses, and runway values.
 - [x] Label sample financial values clearly.
 - [x] Use simple bars, trends, or progress visuals rather than complex charts.
-- [ ] Add accessible text equivalents for every visual metric.
+- [x] Add accessible text equivalents for every visual metric.
 - [x] Update at least one metric after the P0 task completes.
 - [x] Build the Profile screen.
-- [ ] Display startup identity and selected operating country.
-- [ ] Add a non-functional notification preference toggle with local state.
-- [ ] Add educational-content and privacy notices.
+- [x] Display startup identity and selected operating country.
+- [x] Add a non-functional notification preference toggle with local state.
+- [x] Add educational-content and privacy notices.
 - [x] Add reset-demo confirmation.
 - [x] Add restore-sample-data action for presenters.
 - [x] Add application version and build identifier.

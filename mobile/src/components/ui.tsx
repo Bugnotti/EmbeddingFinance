@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react-native';
 import { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle, useWindowDimensions } from 'react-native';
 import { colors, radii, spacing, typography } from '@/constants/theme';
 
 export function AppText({ children, variant = 'body', color = colors.ink, style }: { children: ReactNode; variant?: 'display' | 'title' | 'headline' | 'body' | 'small' | 'caption' | 'button'; color?: string; style?: StyleProp<any> }) {
@@ -17,8 +17,21 @@ export function IconButton({ label, icon: Icon, onPress }: { label: string; icon
   return <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}><Icon size={20} color={colors.ink} /></Pressable>;
 }
 
-export function ScreenHeader({ eyebrow, title, description, action }: { eyebrow?: string; title: string; description?: string; action?: ReactNode }) {
-  return <View style={styles.header}><View style={styles.headerCopy}>{eyebrow && <AppText variant="caption" color={colors.primary} style={styles.eyebrow}>{eyebrow.toUpperCase()}</AppText>}<AppText variant="title">{title}</AppText>{description && <AppText variant="body" color={colors.inkMuted} style={styles.description}>{description}</AppText>}</View>{action}</View>;
+export function ScreenHeader({ eyebrow, title, description, action, compact = false }: { eyebrow?: string; title: string; description?: string; action?: ReactNode; compact?: boolean }) {
+  const { width } = useWindowDimensions();
+  const showDescription = Boolean(description && (!compact || width >= 760));
+  return <View style={[styles.header, compact && styles.headerCompact]}><View style={styles.headerCopy}>{eyebrow && <AppText variant="caption" color={colors.primary} style={styles.eyebrow}>{eyebrow.toUpperCase()}</AppText>}<AppText variant="title">{title}</AppText>{showDescription && <AppText variant="body" color={colors.inkMuted} style={styles.description}>{description}</AppText>}</View>{action}</View>;
+}
+
+export function ScreenContent({ children, maxWidth = 620, style }: { children: ReactNode; maxWidth?: number; style?: StyleProp<ViewStyle> }) {
+  const { width } = useWindowDimensions();
+  return <View style={[styles.screenContent, { maxWidth }, width >= 760 && styles.screenContentWide, style]}>{children}</View>;
+}
+
+export function InlineNotice({ label, children, tone = 'info' }: { label: string; children: ReactNode; tone?: 'info' | 'success' | 'warning' }) {
+  const toneStyle = { info: styles.noticeInfo, success: styles.noticeSuccess, warning: styles.noticeWarning }[tone];
+  const color = tone === 'warning' ? colors.amber : colors.primary;
+  return <View accessibilityLiveRegion="polite" style={[styles.notice, toneStyle]}><AppText variant="caption" color={color} style={styles.noticeLabel}>{label}</AppText><AppText variant="caption" color={colors.inkMuted}>{children}</AppText></View>;
 }
 
 export function ProgressBar({ value }: { value: number }) {
@@ -35,8 +48,8 @@ export function FormField({ label, hint, error, ...props }: TextInputProps & { l
   return <View style={styles.field}><AppText variant="small" style={styles.fieldLabel}>{label}</AppText><TextInput {...props} placeholderTextColor={colors.inkSoft} style={[styles.input, props.multiline && styles.multiline, error && styles.inputError]} accessibilityLabel={label} />{error ? <AppText variant="caption" color={colors.danger}>{error}</AppText> : hint ? <AppText variant="caption" color={colors.inkMuted}>{hint}</AppText> : null}</View>;
 }
 
-export function SectionCard({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
-  return <View style={[styles.card, style]}>{children}</View>;
+export function SectionCard({ children, style, accessibilityLabel }: { children: ReactNode; style?: StyleProp<ViewStyle>; accessibilityLabel?: string }) {
+  return <View accessibilityLabel={accessibilityLabel} style={[styles.card, style]}>{children}</View>;
 }
 
 export function SkyCloud({ size = 72, color = colors.white, style }: { size?: number; color?: string; style?: StyleProp<ViewStyle> }) {
@@ -52,6 +65,7 @@ export const styles = StyleSheet.create({
   scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg, paddingBottom: 118, maxWidth: 620, width: '100%', alignSelf: 'center' },
   text: { fontFamily: 'System', letterSpacing: 0 },
   header: { flexDirection: 'row', justifyContent: 'space-between', gap: spacing.lg, marginBottom: spacing.xl },
+  headerCompact: { marginBottom: spacing.lg },
   headerCopy: { flex: 1, gap: spacing.sm },
   eyebrow: { fontWeight: '800', letterSpacing: 1.2 },
   description: { lineHeight: 23 },
@@ -70,6 +84,13 @@ export const styles = StyleSheet.create({
   badgeWarning: { backgroundColor: colors.amberSoft },
   badgeLocked: { backgroundColor: '#ECEEEF' },
   card: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radii.lg, padding: spacing.lg },
+  screenContent: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg, paddingBottom: 126, width: '100%', alignSelf: 'center' },
+  screenContentWide: { paddingHorizontal: spacing.xxl },
+  notice: { borderWidth: 1, borderRadius: radii.md, padding: spacing.md, gap: 3 },
+  noticeInfo: { backgroundColor: colors.blueSoft, borderColor: colors.blueLine },
+  noticeSuccess: { backgroundColor: colors.primarySoft, borderColor: '#D4CEFF' },
+  noticeWarning: { backgroundColor: colors.amberSoft, borderColor: '#F7D984' },
+  noticeLabel: { fontWeight: '800', letterSpacing: 0.8 },
   field: { gap: spacing.sm },
   fieldLabel: { fontWeight: '700' },
   input: { minHeight: 52, borderWidth: 1, borderColor: colors.line, borderRadius: radii.md, backgroundColor: colors.surface, paddingHorizontal: spacing.md, paddingVertical: spacing.md, color: colors.ink, fontFamily: 'System', fontSize: typography.body },
