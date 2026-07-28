@@ -7,15 +7,17 @@ import { colors, radii, spacing } from '@/constants/theme';
 
 type MascotGuideProps = {
   message: string;
+  mood?: 'idle' | 'thinking' | 'encouraging' | 'celebrating';
   label?: string;
   size?: number;
   style?: StyleProp<ViewStyle>;
 };
 
-export function MascotGuide({ message, label = 'Talk to Pixel, your startup guide', size = 104, style }: MascotGuideProps) {
+export function MascotGuide({ message, mood = 'idle', label = 'Talk to Pixel, your startup guide', size = 104, style }: MascotGuideProps) {
   const [dialogOpen, setDialogOpen] = useState(true);
   const [reduceMotion, setReduceMotion] = useState(false);
   const bob = useRef(new Animated.Value(0)).current;
+  const reaction = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
@@ -25,7 +27,12 @@ export function MascotGuide({ message, label = 'Talk to Pixel, your startup guid
 
   useEffect(() => {
     setDialogOpen(true);
-  }, [message]);
+    if (reduceMotion) return;
+    const startingScale = mood === 'celebrating' ? 0.86 : mood === 'thinking' ? 0.96 : 0.92;
+    const endingScale = mood === 'celebrating' ? 1.08 : 1;
+    reaction.setValue(startingScale);
+    Animated.spring(reaction, { toValue: endingScale, friction: 5, tension: 120, useNativeDriver: true }).start();
+  }, [message, mood, reaction, reduceMotion]);
 
   useEffect(() => {
     if (reduceMotion) {
@@ -48,7 +55,7 @@ export function MascotGuide({ message, label = 'Talk to Pixel, your startup guid
       <View style={styles.tail} />
     </View>}
     <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityHint="Opens or hides Pixel's message" onPress={() => setDialogOpen((open) => !open)} style={({ pressed }) => [styles.mascotPressable, pressed && styles.pressed, { width: size, height: size }]}>
-      <Animated.View style={{ transform: [{ translateY: bob }] }}>
+      <Animated.View style={{ transform: [{ translateY: bob }, { scale: reaction }] }}>
         <Image source={require('../../assets/images/mascots/startup-cat.png')} resizeMode="contain" style={{ width: size, height: size }} />
       </Animated.View>
     </Pressable>

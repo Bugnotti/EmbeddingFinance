@@ -48,7 +48,7 @@ current UI must still be treated as an iteration rather than a finished design.
 The user explicitly considers several elements unattractive and wants a more
 iconic, cartoonized, Duolingo-like experience.
 
-## Current Checkpoint: Web Interactions Restored, Visual Audit In Progress
+## Current Checkpoint: Physical iPhone Connection Restored, Visual Audit In Progress
 
 ### Critical interaction regression found and fixed
 
@@ -129,6 +129,24 @@ The first incremental polish pass was completed on 2026-07-28:
 - Integrated the animated guide into Onboarding and the Journey next-action
   surface. Pixel now reacts to industry and country choices and gives useful
   validation feedback after an incomplete submission.
+- Extended Pixel into the Lesson and Task flow with explicit idle, thinking,
+  encouraging, and celebrating moods. Meaningful draft input, validation,
+  completion, and the completion screen now produce contextual dialogue.
+- Reworked Lesson for responsive reading: phone screens keep the guide in the
+  reading flow, while wide screens add a dedicated guide and takeaway panel.
+- Reworked Task for responsive forms: phone screens remain single-column and
+  wide screens place the two related fields side by side without changing the
+  existing local draft, validation, or completion behavior.
+- Reworked Workspace into grouped artifact sections with responsive two-column
+  desktop layout, readable status metadata, filter controls, and a Pixel guide.
+- Reworked the Value Proposition Canvas editor with responsive two-column
+  prompts on wide screens, a compact artifact status header, contextual Pixel
+  guidance, and visible saving/saved feedback while preserving immediate local
+  persistence.
+- Reworked Coach into a responsive chat workspace with a wide-screen context
+  panel, mobile Pixel guidance, startup-aware deterministic responses, guarded
+  rapid sends, and a mock failure state with retry that preserves the user’s
+  message.
 
 Verification completed for this slice:
 
@@ -144,14 +162,23 @@ Verification completed for this slice:
   and desktop widths; Journey expands to a wider desktop content layout.
 - Returning-session visibility check: the mascot is also present on Journey so
   persisted demo data does not hide it behind the onboarding route.
+- Lesson and Task source review: responsive branches, Pixel reactions, invalid
+  submission feedback, and completion rendering are wired and type-safe.
+- Workspace and Artifact export review: grouped artifact markup, filter buttons,
+  editable canvas fields, Coach entry point, and saved-state indicators appear
+  in the generated web routes.
+- Coach export review: mock status, suggested prompts, message composer, Pixel
+  context, and retry-capable response path are present in the generated route;
+  no executable `import.meta.env` or uncaught-error text was found.
+- Physical iPhone connection confirmed by the user through Expo Go after
+  switching to an LTS Node runtime and installing the Expo tunnel dependency.
 - `npm run typecheck`, `npm run lint`, five Jest tests, and web export all pass.
 
 Responsive work is now a shared rollout rather than an isolated Onboarding fix.
-The next pass should carry the same breakpoints, comfortable spacing, and
-responsive content widths through Welcome, Lesson, Task, Workspace, Artifact,
-Coach, Metrics, and Profile. Treat this as an explicit remaining task: the
-application is materially improved on phone and desktop, but not every route
-has been individually reviewed at all widths yet.
+Welcome, Onboarding, Journey, Lesson, Task, Workspace, Artifact, and Coach now
+have explicit responsive branches or reviewed content widths. Metrics and
+Profile still need the same screen-level treatment, and the whole app still
+needs an interactive phone/desktop screenshot pass before visual approval.
 
 ### Verification at pause
 
@@ -166,6 +193,26 @@ npx expo export --platform web
 git diff --check        pass
 ```
 
+An earlier temporary Expo web server attempt on port 8087 failed while the
+local CLI probed an invalid port 65536 via `freeport-async`; this was an
+environment/Node 26 issue rather than an application failure. The physical
+iPhone path is now working with an LTS Node runtime and the tunnel dependency.
+No server is left running by the implementation session.
+
+### iPhone runbook checkpoint
+
+The working physical-device setup is:
+
+```text
+cd mobile
+nvm use 22
+npm install -g @expo/ngrok
+npx expo start --clear --tunnel
+```
+
+Scan the QR code with Expo Go. When the computer and iPhone share a reliable
+Wi-Fi network, `npm start` can be used instead of the tunnel.
+
 The isolated Expo server on port 8083 and the headless Chrome audit session on
 port 9223 were stopped before pausing. No audit server should be running.
 
@@ -173,24 +220,27 @@ port 9223 were stopped before pausing. No audit server should be running.
 
 Resume in this order:
 
-1. Continue the visual audit screen by screen. Treat the current playful UI as a
-   direction test, not final polish. Review Welcome, Onboarding, Journey,
-   Lesson, Task, Workspace, Artifact, Coach, Metrics, and Profile at phone and
-   desktop widths.
-2. Ask for concrete feedback on the least successful elements and compare a
+1. Implement the responsive Metrics and Profile slice. Review metric scanning,
+   accessible text equivalents, startup identity, country context, and reset/
+   restore actions.
+2. Run an interactive phone/desktop pass for Workspace, Artifact, and Coach now that
+   the Expo Go connection is working again. Check long entries, keyboard
+   behavior, autosave feedback, filters, long responses, retry, and the Coach
+   entry point.
+3. Ask for concrete feedback on the least successful elements and compare a
    small number of coherent visual directions before another broad restyle.
-3. Finish the interaction matrix for Coach, Profile alerts, reset and restore,
+4. Finish the interaction matrix for Coach, Profile alerts, reset and restore,
    filters, locked milestones, Metrics, back navigation, validation errors, and
    repeated task completion.
-4. Add an automated browser smoke test that fails when React hydration breaks;
+5. Add an automated browser smoke test that fails when React hydration breaks;
    static export alone did not detect the dead-button regression.
-5. Investigate two non-blocking development warnings observed in Expo output:
+6. Investigate two non-blocking development warnings observed in Expo output:
    deprecated `props.pointerEvents` usage and one transient
    `Unexpected text node: .` server-render warning. Neither produced a browser
    exception during the final walkthrough.
-6. Run the full physical iPhone UX checklist and Android emulator validation,
+7. Run the full physical iPhone UX checklist and Android emulator validation,
    followed by accessibility, large-text, reduced-motion, and keyboard checks.
-7. Add an app error boundary and explicit loading, corrupted-storage, and
+8. Add an app error boundary and explicit loading, corrupted-storage, and
    recovery states before calling the mockup handoff-ready.
 
 Current edits are uncommitted. Preserve the working tree and continue from the
@@ -777,16 +827,16 @@ Show that work created during the journey becomes reusable startup documentation
 ### Tasks
 
 - [x] Build the Workspace overview.
-- [ ] Group artifacts by planning, validation, finance, pitch, and legal areas.
+- [x] Group artifacts by planning, validation, finance, pitch, and legal areas.
 - [x] Display not-started, draft, needs-review, and complete statuses.
-- [ ] Add an informative empty state.
+- [x] Add an informative empty state.
 - [x] Build the Value Proposition Canvas editor.
 - [x] Use structured fields for customer jobs, pains, gains, products, pain
   relievers, and gain creators.
 - [x] Pre-populate the initial artifact with the demo startup context.
-- [ ] Autosave edits to local state while typing; the current P0 save occurs on
-  Coach review.
-- [ ] Show a compact last-saved indicator.
+- [x] Autosave edits to local state while typing; the current P0 save is
+  immediate and local.
+- [x] Show a compact last-saved indicator.
 - [x] Add a review-with-Coach action.
 - [ ] Add a confirmation flow for discarding an unsaved invalid change.
 - [x] Build preview states for P1 artifacts.
@@ -821,15 +871,15 @@ Demonstrate useful contextual AI assistance without making live model calls.
 - [x] Add suggested prompt actions.
 - [x] Implement a message composer.
 - [x] Add sending, loading, and response states.
-- [ ] Add a recoverable Coach error state and retry action.
+- [x] Add a recoverable Coach error state and retry action.
 - [ ] Return responses from a dedicated fixture/service boundary; the current
   response is deterministic but screen-local.
 - [ ] Write a high-quality Value Proposition Canvas review fixture.
 - [ ] Structure feedback into strengths, gaps, questions, and next action.
-- [ ] Add a retry action.
+- [x] Add a retry action.
 - [ ] Persist the current demo conversation.
-- [ ] Add a clear mock or preview indicator for internal demos.
-- [ ] Ensure AI suggestions are not described as legal or financial advice.
+- [x] Add a clear mock or preview indicator for internal demos.
+- [x] Ensure AI suggestions are not described as legal or financial advice.
 - [ ] Test keyboard, message scrolling, and long responses.
 - [ ] Test service failure and retry.
 
