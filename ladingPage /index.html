@@ -355,11 +355,9 @@
             <h2 class="text-4xl font-bold mb-6">Ready to Build?</h2>
             <p class="text-lg text-gray-600 mb-8">Join hundreds of founders building smarter.</p>
             
-            <form class="flex flex-col sm:flex-row gap-3 mb-6">
-                <input type="email" placeholder="your@email.com" required class="flex-1 px-6 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-600">
-                <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition whitespace-nowrap">
-                    Join the Waitlist
-                </button>
+            <form id="waitlist-form">
+                <input type="email" id="email" placeholder="your@email.com" required>
+                <button type="submit">Join the Waitlist</button>
             </form>
             <p class="text-sm text-gray-500">Launching Q4 2025. Beta access starts earlier. No spam, ever.</p>
         </div>
@@ -411,5 +409,44 @@
             this.reset();
         });
     </script>
+    <script>
+    const API_URL = 'http://localhost:3000'; // Cambia in produzione
+
+    document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.querySelector('input[type="email"]').value;
+        const button = document.querySelector('button[type="submit"]');
+        
+        // Disabilita bottone durante invio
+        button.disabled = true;
+        button.textContent = 'Invio in corso...';
+
+        try {
+            const response = await fetch(`${API_URL}/api/waitlist`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(`✓ Grazie! Abbiamo registrato ${email}`);
+                document.getElementById('waitlist-form').reset();
+            } else {
+                alert(`❌ ${data.error || 'Errore durante la registrazione'}`);
+            }
+        } catch (error) {
+            console.error('Errore:', error);
+            alert('Errore di connessione al server');
+        } finally {
+            button.disabled = false;
+            button.textContent = 'Join the Waitlist';
+        }
+    });
+</script>
 </body>
 </html>
