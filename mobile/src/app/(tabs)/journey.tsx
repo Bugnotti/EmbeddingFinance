@@ -1,10 +1,11 @@
 import { router } from 'expo-router';
-import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { ArrowRight, Blocks, Check, Cloud, Flag, Lightbulb, LockKeyhole, Megaphone, Rocket, Sparkles, Sun, Target, TrendingUp, UsersRound } from 'lucide-react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { ArrowRight, Blocks, Check, Flag, Lightbulb, LockKeyhole, Megaphone, Rocket, Sparkles, Sun, Target, TrendingUp, UsersRound } from 'lucide-react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useState } from 'react';
 
-import { AppButton, AppText, ProgressBar, SectionCard, StatusBadge } from '@/components/ui';
+import { MascotGuide } from '@/components/mascot-guide';
+import { AppButton, AppText, ProgressBar, SectionCard, SkyCloud, StatusBadge } from '@/components/ui';
 import { colors, radii, spacing } from '@/constants/theme';
 import { Milestone, JourneyStage } from '@/data/demo';
 import { useDemoStore } from '@/store/use-demo-store';
@@ -16,27 +17,29 @@ export default function JourneyScreen() {
   const startup = useDemoStore((state) => state.startup);
   const milestones = useDemoStore((state) => state.milestones);
   const metrics = useDemoStore((state) => state.metrics);
+  const { width } = useWindowDimensions();
+  const isWide = width >= 760;
   const active = milestones.find((item) => item.status === 'in_progress') ?? milestones.find((item) => item.status === 'available');
-  return <ScrollView style={styles.page} contentContainerStyle={styles.content}>
+  return <ScrollView style={styles.page} contentContainerStyle={[styles.content, isWide && styles.contentWide]}>
     <View style={styles.hero}>
-      <Cloud color="#FFFFFF" fill="#FFFFFF" size={82} strokeWidth={1.5} style={styles.heroCloudOne} />
-      <Cloud color="#DDF5FF" fill="#DDF5FF" size={68} strokeWidth={1.5} style={styles.heroCloudTwo} />
+      <SkyCloud size={88} style={styles.heroCloudOne} />
+      <SkyCloud size={72} color={colors.blueSoft} style={styles.heroCloudTwo} />
       <View style={styles.heroTop}>
         <View style={styles.heroCopy}>
           <AppText variant="caption" color="#FFFFFF" style={styles.overline}>YOUR STARTUP JOURNEY</AppText>
           <AppText variant="title" color="#FFFFFF">Build {startup?.name ?? 'your startup'}.</AppText>
-          <AppText variant="small" color="#EEF8FF">One small step at a time, all the way to launch.</AppText>
+          <AppText variant="small" color={colors.blueSoft}>One small step at a time, all the way to launch.</AppText>
         </View>
-        <View style={styles.sun}><Sun color={colors.amber} fill="#FFF4B9" size={27} /></View>
+        <View style={styles.sun}><Sun color={colors.amber} fill={colors.amberSoft} size={27} /></View>
       </View>
       <View style={styles.heroProgress}>
         <View style={styles.heroProgressTop}><AppText variant="caption" color="#FFFFFF">JOURNEY PROGRESS</AppText><AppText variant="headline" color="#FFFFFF">{metrics.progress}%</AppText></View>
         <ProgressBar value={metrics.progress} />
-        <View style={styles.heroProgressBottom}><AppText variant="caption" color="#E5F6FF">Validate stage</AppText><View style={styles.streak}><Sparkles color={colors.amber} size={13} /><AppText variant="caption" color="#FFF9D2">3 day streak</AppText></View></View>
+        <View style={styles.heroProgressBottom}><AppText variant="caption" color={colors.blueSoft}>Validate stage</AppText><View style={styles.streak}><Sparkles color={colors.amber} size={13} /><AppText variant="caption" color={colors.amberSoft}>3 day streak</AppText></View></View>
       </View>
     </View>
 
-    {active && <SectionCard style={styles.nextCard}><View style={styles.nextHeader}><View style={styles.nextIcon}><Target color={colors.coral} size={20} /></View><View style={styles.nextCopy}><AppText variant="caption" color={colors.coral}>NEXT BEST ACTION</AppText><AppText variant="headline">{active.title}</AppText><AppText variant="small" color={colors.inkMuted}>{active.subtitle}</AppText></View></View><AppButton label="Continue" icon={ArrowRight} onPress={() => openMilestone(active)} disabled={!active.lessonId && !active.artifactId} /></SectionCard>}
+    {active && <SectionCard style={styles.nextCard}><View style={styles.nextHeader}><View style={styles.nextIcon}><Target color={colors.coral} size={20} /></View><View style={styles.nextCopy}><AppText variant="caption" color={colors.coral}>NEXT BEST ACTION</AppText><AppText variant="headline">{active.title}</AppText><AppText variant="small" color={colors.inkMuted}>{active.subtitle}</AppText></View></View><MascotGuide message={`Next up: ${active.title}. ${active.subtitle}`} size={78} style={styles.nextGuide} /><AppButton label="Continue" icon={ArrowRight} onPress={() => openMilestone(active)} disabled={!active.lessonId && !active.artifactId} /></SectionCard>}
 
     <View style={styles.sectionTitle}><View><AppText variant="headline">Your path to launch</AppText><AppText variant="small" color={colors.inkMuted}>Follow the trail. Each stop makes your startup clearer.</AppText></View><View style={styles.milestoneCount}><Flag color={colors.primary} size={15} /><AppText variant="caption" color={colors.primary}>{milestones.filter((item) => item.status === 'completed').length}/{milestones.length}</AppText></View></View>
     <Roadmap milestones={milestones} />
@@ -52,9 +55,9 @@ function Roadmap({ milestones }: { milestones: Milestone[] }) {
   const path = points.length && roadmapWidth ? buildPath(points) : '';
 
   return <View style={[styles.roadmapCanvas, { height }]} onLayout={(event) => setRoadmapWidth(event.nativeEvent.layout.width)}>
-    <Cloud color="#FFFFFF" fill="#FFFFFF" size={76} strokeWidth={1.5} style={styles.cloudOne} />
-    <Cloud color="#DDF5FF" fill="#DDF5FF" size={60} strokeWidth={1.5} style={styles.cloudTwo} />
-    {path && <Svg width="100%" height={height} style={StyleSheet.absoluteFill} pointerEvents="none"><Path d={path} fill="none" stroke="#FFFFFF" strokeWidth={26} strokeLinecap="round" strokeLinejoin="round" /><Path d={path} fill="none" stroke="#9BDDF6" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" /></Svg>}
+    <SkyCloud size={76} style={styles.cloudOne} />
+    <SkyCloud size={60} color={colors.blueSoft} style={styles.cloudTwo} />
+    {path && <Svg width="100%" height={height} style={[StyleSheet.absoluteFill, styles.nonInteractive]}><Path d={path} fill="none" stroke={colors.white} strokeWidth={26} strokeLinecap="round" strokeLinejoin="round" /><Path d={path} fill="none" stroke={colors.blueLine} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" /></Svg>}
     {milestones.map((milestone, index) => <RoadmapNode key={milestone.id} milestone={milestone} index={index} />)}
   </View>;
 }
@@ -122,9 +125,10 @@ function buildPath(points: { x: number; y: number }[]) {
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.canvas },
   content: { padding: spacing.lg, paddingBottom: 126, maxWidth: 620, width: '100%', alignSelf: 'center' },
+  contentWide: { maxWidth: 980, paddingHorizontal: spacing.xl },
   hero: { minHeight: 226, overflow: 'hidden', borderRadius: 24, padding: spacing.xl, backgroundColor: colors.blue, position: 'relative' },
-  heroCloudOne: { position: 'absolute', right: -18, top: -16, opacity: 0.94 },
-  heroCloudTwo: { position: 'absolute', left: -12, bottom: -18, opacity: 0.82 },
+  heroCloudOne: { right: -18, top: -12, opacity: 0.94 },
+  heroCloudTwo: { left: -12, bottom: -18, opacity: 0.82 },
   heroTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   heroCopy: { flex: 1, gap: spacing.sm },
   overline: { letterSpacing: 1.2, fontWeight: '800' },
@@ -137,11 +141,13 @@ const styles = StyleSheet.create({
   nextHeader: { flexDirection: 'row', gap: spacing.md },
   nextIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   nextCopy: { flex: 1, gap: 3 },
+  nextGuide: { marginTop: -2 },
   sectionTitle: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.xxl, marginBottom: spacing.md },
   milestoneCount: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radii.pill, backgroundColor: colors.primarySoft },
-  roadmapCanvas: { position: 'relative', overflow: 'hidden', borderRadius: 24, backgroundColor: '#CFF0FF', borderWidth: 1, borderColor: '#B9E7FA' },
-  cloudOne: { position: 'absolute', top: 18, left: -18, opacity: 0.76 },
-  cloudTwo: { position: 'absolute', bottom: 4, right: -14, opacity: 0.72 },
+  roadmapCanvas: { position: 'relative', overflow: 'hidden', borderRadius: 24, backgroundColor: colors.blueSoft, borderWidth: 1, borderColor: colors.blueLine },
+  cloudOne: { top: 18, left: -18, opacity: 0.76 },
+  cloudTwo: { bottom: 4, right: -14, opacity: 0.72 },
+  nonInteractive: { pointerEvents: 'none' },
   nodeRow: { position: 'absolute', left: 0, right: 0, height: ROW_HEIGHT, paddingTop: 10 },
   nodeCluster: { width: '56%', alignItems: 'center' },
   nodeClusterRight: { alignSelf: 'flex-end' },

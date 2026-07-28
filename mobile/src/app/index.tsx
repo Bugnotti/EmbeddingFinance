@@ -1,10 +1,10 @@
 import { Link, Redirect } from 'expo-router';
-import { ArrowRight, Check, Cloud, Compass, Flag, Lightbulb, Sparkles, Target } from 'lucide-react-native';
+import { ArrowRight, Check, Compass, Flag, Lightbulb, Sparkles, Target } from 'lucide-react-native';
 import { useEffect } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import { AppText } from '@/components/ui';
+import { AppText, SkyCloud } from '@/components/ui';
 import { colors, radii, spacing } from '@/constants/theme';
 import { useDemoStore } from '@/store/use-demo-store';
 
@@ -24,17 +24,17 @@ export default function WelcomeScreen() {
   if (onboardingComplete) return <Redirect href="/(tabs)/journey" />;
 
   return <ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.mark}><Sparkles color={colors.white} size={24} /></View>
+    <View style={styles.welcomeTop}><View style={styles.mark}><Sparkles color={colors.white} size={24} /></View><Image source={require('../../assets/images/mascots/startup-cat.png')} accessibilityLabel="Pixel-art cat startup guide" resizeMode="contain" style={styles.welcomeMascot} /></View>
     <AppText variant="caption" color={colors.primary} style={styles.overline}>STARTUP COMPANION</AppText>
     <AppText variant="display" style={styles.title}>Make your idea real.</AppText>
     <AppText variant="body" color={colors.inkMuted} style={styles.lead}>A clear, guided path from first thought to first customer.</AppText>
     <View style={styles.preview}>
       <View style={styles.previewHeader}><Compass color={colors.primary} size={18} /><AppText variant="caption" color={colors.primary}>YOUR FOUNDER JOURNEY</AppText></View>
-      <Cloud color={colors.white} fill={colors.white} size={66} style={styles.cloudOne} />
-      <Cloud color={colors.white} fill={colors.white} size={52} style={styles.cloudTwo} />
-      <Svg viewBox="0 0 342 220" width="100%" height="220" style={styles.previewPath} pointerEvents="none">
+      <SkyCloud size={66} style={styles.cloudOne} />
+      <SkyCloud size={52} color={colors.blueSoft} style={styles.cloudTwo} />
+      <Svg viewBox="0 0 342 220" preserveAspectRatio="none" width="100%" height="220" style={[StyleSheet.absoluteFill, styles.previewPath]}>
         <Path d="M 48 174 C 82 174, 92 112, 157 112 C 214 112, 224 54, 292 54" fill="none" stroke={colors.white} strokeWidth={22} strokeLinecap="round" />
-        <Path d="M 48 174 C 82 174, 92 112, 157 112 C 214 112, 224 54, 292 54" fill="none" stroke="#A89EF8" strokeWidth={10} strokeLinecap="round" />
+        <Path d="M 48 174 C 82 174, 92 112, 157 112 C 214 112, 224 54, 292 54" fill="none" stroke={colors.primaryPath} strokeWidth={10} strokeLinecap="round" />
       </Svg>
       <JourneyPreviewNode style={styles.previewNodeOne} icon={Check} label="Problem" tone={colors.primary} />
       <JourneyPreviewNode style={styles.previewNodeTwo} icon={Target} label="Validate" tone={colors.coral} />
@@ -57,13 +57,15 @@ function JourneyPreviewNode({ icon: Icon, label, tone, style }: { icon: typeof C
 const styles = StyleSheet.create({
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.canvas },
   content: { flexGrow: 1, padding: spacing.xl, paddingTop: 64, paddingBottom: 32, maxWidth: 620, width: '100%', alignSelf: 'center', overflow: 'hidden' },
-  mark: { width: 52, height: 52, borderRadius: 16, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.xl },
+  welcomeTop: { minHeight: 72, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing.lg },
+  mark: { width: 52, height: 52, borderRadius: 16, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  welcomeMascot: { width: 78, height: 78, marginTop: -10, marginRight: -4 },
   overline: { letterSpacing: 1.6, fontWeight: '800', marginBottom: spacing.sm },
   title: { maxWidth: 330 },
   lead: { maxWidth: 340, marginTop: spacing.md, lineHeight: 25 },
   preview: { height: 266, marginTop: spacing.xl, position: 'relative' },
   previewHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, position: 'absolute', left: 0, top: 2, zIndex: 2 },
-  previewPath: { position: 'absolute', left: 0, right: 0, top: 28 },
+  previewPath: { top: 28, pointerEvents: 'none' },
   cloudOne: { position: 'absolute', left: -30, bottom: 20, opacity: 0.86 },
   cloudTwo: { position: 'absolute', right: -16, top: 45, opacity: 0.75 },
   previewNodeGroup: { position: 'absolute', alignItems: 'center', width: 80, zIndex: 3 },

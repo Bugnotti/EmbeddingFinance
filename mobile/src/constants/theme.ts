@@ -14,8 +14,10 @@ export const palettes = {
     primary: '#6B5CE7',
     primaryDark: '#5141C9',
     primarySoft: '#EAE7FF',
+    primaryPath: '#A89EF8',
     blue: '#45B9E9',
     blueSoft: '#DDF5FF',
+    blueLine: '#B9E7FA',
     amber: '#F3B63F',
     amberSoft: '#FFF0BE',
     coral: '#FF7D6E',
@@ -36,8 +38,10 @@ export const palettes = {
     primary: '#E45E72',
     primaryDark: '#B9425D',
     primarySoft: '#FFE0E6',
+    primaryPath: '#F3A0B0',
     blue: '#61BCE1',
     blueSoft: '#E2F6FC',
+    blueLine: '#C5EAF6',
     amber: '#F3AE3D',
     amberSoft: '#FFF0BE',
     coral: '#F78261',
@@ -49,7 +53,9 @@ export const palettes = {
   },
 } as const;
 
-export const colors = palettes.playful;
+export type PaletteName = keyof typeof palettes;
+export const activePalette: PaletteName = 'playful';
+export const colors = palettes[activePalette];
 
 export const spacing = {
   xs: 4,

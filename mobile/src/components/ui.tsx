@@ -39,6 +39,14 @@ export function SectionCard({ children, style }: { children: ReactNode; style?: 
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
+export function SkyCloud({ size = 72, color = colors.white, style }: { size?: number; color?: string; style?: StyleProp<ViewStyle> }) {
+  return <View style={[styles.skyCloud, { width: size, height: size * 0.56 }, style]}>
+    <View style={[styles.cloudBase, { width: size, height: size * 0.3, borderRadius: size * 0.16, backgroundColor: color }]} />
+    <View style={[styles.cloudPuffLarge, { width: size * 0.5, height: size * 0.5, borderRadius: size * 0.25, left: size * 0.14, backgroundColor: color }]} />
+    <View style={[styles.cloudPuffSmall, { width: size * 0.36, height: size * 0.36, borderRadius: size * 0.18, left: size * 0.52, backgroundColor: color }]} />
+  </View>;
+}
+
 export const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.canvas },
   scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg, paddingBottom: 118, maxWidth: 620, width: '100%', alignSelf: 'center' },
@@ -67,6 +75,10 @@ export const styles = StyleSheet.create({
   input: { minHeight: 52, borderWidth: 1, borderColor: colors.line, borderRadius: radii.md, backgroundColor: colors.surface, paddingHorizontal: spacing.md, paddingVertical: spacing.md, color: colors.ink, fontFamily: 'System', fontSize: typography.body },
   multiline: { minHeight: 116, textAlignVertical: 'top' },
   inputError: { borderColor: colors.danger },
+  skyCloud: { position: 'absolute', pointerEvents: 'none' },
+  cloudBase: { position: 'absolute', bottom: 0 },
+  cloudPuffLarge: { position: 'absolute', bottom: 4 },
+  cloudPuffSmall: { position: 'absolute', bottom: 4 },
 });
 
 const textVariants = StyleSheet.create({

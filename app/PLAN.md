@@ -105,6 +105,54 @@ No new browser runtime exceptions occurred after the fixes.
 - Reviewed phone-sized screenshots for Welcome, Onboarding, Journey, and
   Workspace.
 
+### First visual slice completed: Welcome and Journey
+
+The first incremental polish pass was completed on 2026-07-28:
+
+- Added a single `activePalette` switch so visual experiments can move between
+  the playful and sunset palettes without rewriting consumers.
+- Added shared `SkyCloud` geometry so the cartoon clouds are consistent and do
+  not depend on clipped filled icon bounds.
+- Replaced raw Welcome/Journey colors with semantic palette tokens, including
+  path and sky border colors.
+- Fixed the Welcome mini-roadmap SVG so its path stays connected to its nodes
+  on both phone and desktop widths.
+- Confirmed the Welcome action navigates to Onboarding in the browser after the
+  visual changes.
+- Generated and added the reusable transparent mascot asset at
+  `mobile/assets/images/mascots/startup-cat.png`.
+- Added `MascotGuide`, a reusable animated Pixel companion that gently bobs,
+  respects reduced-motion settings, opens and closes its speech bubble on tap,
+  and announces new guidance when its message changes.
+- Rebuilt Onboarding as a responsive guided setup flow: a focused single-column
+  mobile layout and a two-column guide-plus-form workspace at 760px and above.
+- Integrated the animated guide into Onboarding and the Journey next-action
+  surface. Pixel now reacts to industry and country choices and gives useful
+  validation feedback after an incomplete submission.
+
+Verification completed for this slice:
+
+- Phone screenshots: 390 x 844 Welcome and Journey.
+- Desktop screenshots: 1440 x 900 Welcome and Journey.
+- Browser runtime check: no exceptions; `Start building` reaches Onboarding.
+- Onboarding browser check: mascot renders at phone and desktop widths, and the
+  `Build my roadmap` control remains present.
+- Mascot interaction check: tapping Pixel hides and reopens the dialogue;
+  industry, country, and validation actions update its message with no browser
+  runtime exceptions.
+- Journey browser check: Pixel, the dialogue, and `Continue` render at phone
+  and desktop widths; Journey expands to a wider desktop content layout.
+- Returning-session visibility check: the mascot is also present on Journey so
+  persisted demo data does not hide it behind the onboarding route.
+- `npm run typecheck`, `npm run lint`, five Jest tests, and web export all pass.
+
+Responsive work is now a shared rollout rather than an isolated Onboarding fix.
+The next pass should carry the same breakpoints, comfortable spacing, and
+responsive content widths through Welcome, Lesson, Task, Workspace, Artifact,
+Coach, Metrics, and Profile. Treat this as an explicit remaining task: the
+application is materially improved on phone and desktop, but not every route
+has been individually reviewed at all widths yet.
+
 ### Verification at pause
 
 Run from `mobile/`:
