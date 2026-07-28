@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Startup Companion - Build Your Company in One App</title>
+    <title>Foundly - Make your idea real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -21,380 +21,419 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.06) 0%, rgba(118, 75, 162, 0.06) 100%);
+        .grid-bg {
+            background-image:
+                linear-gradient(to right, rgba(79, 70, 229, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(79, 70, 229, 0.06) 1px, transparent 1px);
+            background-size: 56px 56px;
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
         }
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.12);
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        .icon-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 1rem;
-            font-size: 1.75rem;
+        .grid-bg-dark {
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 56px 56px;
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 85%);
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 85%);
         }
         .blob {
             position: absolute;
             border-radius: 9999px;
-            filter: blur(80px);
+            filter: blur(90px);
             z-index: 0;
         }
-        #nav-bar.scrolled {
-            box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+        .logo-mark {
+            width: 2rem; height: 2rem; border-radius: 0.6rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
         }
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease both;
+        #nav-bar.scrolled { box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06); }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        .cycle-word { transition: opacity 0.3s ease, transform 0.3s ease; }
+
+        /* ---------- Chaos → Order stage ---------- */
+        .stage { position: relative; height: 25rem; }
+        .mess-chip {
+            position: absolute;
+            left: var(--l); top: var(--t);
+            transform: translate(-50%, -50%) rotate(var(--r));
+            transition: left .75s cubic-bezier(.5,.05,.2,1), top .75s cubic-bezier(.5,.05,.2,1),
+                        transform .75s cubic-bezier(.5,.05,.2,1), opacity .45s ease;
+            white-space: nowrap;
         }
+        .stage.tidy .mess-chip {
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(0deg) scale(.55);
+            opacity: 0;
+        }
+        .one-app {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(.88);
+            opacity: 0; pointer-events: none;
+            transition: opacity .5s .2s ease, transform .6s .2s cubic-bezier(.4,.2,.2,1);
+        }
+        .stage.tidy .one-app {
+            opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto;
+        }
+        .seg-btn { transition: color .25s ease; }
+        .seg-indicator { transition: transform .35s cubic-bezier(.4,.2,.2,1); }
+
+        /* ---------- Horizontal roadmap ---------- */
+        .road-wrap { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+        .road-wrap::-webkit-scrollbar { height: 6px; }
+        .road-wrap::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+        .road { position: relative; height: 22rem; min-width: 62rem; }
+        .road svg.road-path { position: absolute; inset: 0; width: 100%; height: 100%; }
+        #road-progress { transition: stroke-dashoffset .6s cubic-bezier(.4,.2,.2,1); }
+        .cloud { position: absolute; border-radius: 999px; background: rgba(255,255,255,.75); }
+        .node { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
+        .node-circle {
+            width: 3.25rem; height: 3.25rem; border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center;
+            background: #fff; border: 2px solid #dbeafe; color: #94a3b8;
+            cursor: pointer;
+            transition: all .3s cubic-bezier(.4,.2,.2,1);
+        }
+        .node-circle:hover { border-color: #c7d2fe; transform: scale(1.06); }
+        .node.done .node-circle, .node.current .node-circle {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-color: transparent; color: #fff;
+        }
+        .node.done .node-circle { opacity: .8; }
+        .node.current .node-circle {
+            transform: scale(1.16);
+            box-shadow: 0 0 0 6px rgba(124, 58, 237, .16), 0 12px 26px -6px rgba(79, 70, 229, .5);
+        }
+        .node.current .node-circle:hover { transform: scale(1.2); }
+        .node-label {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 8.6rem; text-align: center; pointer-events: none;
+        }
+        .node-label.above { bottom: calc(100% + 0.8rem); }
+        .node-label.below { top: calc(100% + 0.8rem); }
+        .node-kicker { font-size: .65rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+        .node-title { font-size: .85rem; font-weight: 700; color: #0f172a; line-height: 1.25; margin-top: .1rem; }
+        .node.locked .node-title { color: #94a3b8; font-weight: 600; }
+        .node.locked .node-kicker { color: #cbd5e1 !important; }
+        .node-badge {
+            display: inline-block; margin-top: .3rem;
+            font-size: .62rem; font-weight: 700; padding: .12rem .45rem; border-radius: 999px;
+        }
+        #miso-panel { transition: opacity .3s ease, transform .3s ease; }
     </style>
 </head>
 <body class="bg-white text-slate-900 antialiased">
     <!-- Navigation -->
     <nav id="nav-bar" class="fixed w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 transition-shadow duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="text-2xl font-extrabold gradient-text">Startup Companion</div>
-                <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-blue-700 active:scale-95 transition shadow-sm shadow-blue-600/20">
-                    Get Beta Access
+                <div class="flex items-center gap-2.5">
+                    <div class="logo-mark">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></svg>
+                    </div>
+                    <span class="text-lg font-extrabold tracking-tight">Foundly</span>
+                </div>
+                <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="bg-slate-900 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-sm">
+                    Get early access
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden pt-32 pb-24 px-4 gradient-bg">
-        <div class="blob w-96 h-96 bg-blue-400/30 -top-24 -left-24"></div>
-        <div class="blob w-96 h-96 bg-purple-400/30 top-10 -right-24"></div>
-        <div class="max-w-5xl mx-auto relative z-10">
-            <div class="text-center mb-16 fade-in-up">
-                <div class="mb-6">
-                    <span class="badge bg-blue-100 text-blue-700">✨ Coming Soon</span>
-                </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
-                    Billi Startup <span class="gradient-text">in One App</span>
-                </h1>
-                <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
-                    Learn, build, and validate your startup idea through an engaging mobile experience. Real progress, real artifacts, real results.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 active:scale-95 transition shadow-lg shadow-blue-600/25">
-                        Join the Waitlist
-                    </button>
-                    <button class="bg-white border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-gray-300 hover:bg-gray-50 transition">
-                        View Demo
-                    </button>
-                </div>
+    <!-- Hero -->
+    <section class="relative overflow-hidden pt-32 pb-16 px-4">
+        <div class="absolute inset-0 grid-bg"></div>
+        <div class="blob w-[28rem] h-[28rem] bg-indigo-400/25 -top-32 -left-32"></div>
+        <div class="blob w-[26rem] h-[26rem] bg-fuchsia-400/20 top-0 -right-32"></div>
+        <div class="max-w-3xl mx-auto relative z-10 text-center">
+            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-sm font-semibold text-slate-700 shadow-sm">
+                <span class="relative flex h-2 w-2">
+                    <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-indigo-500"></span>
+                </span>
+                Your startup companion
             </div>
-
-            <!-- Hero Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 bg-white/70 backdrop-blur rounded-2xl border border-gray-100 shadow-sm p-8">
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold gradient-text mb-2">6</div>
-                    <p class="text-gray-600 text-sm md:text-base">Startup Stages</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold gradient-text mb-2">100+</div>
-                    <p class="text-gray-600 text-sm md:text-base">Lessons & Tasks</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold gradient-text mb-2">50+</div>
-                    <p class="text-gray-600 text-sm md:text-base">Artifacts</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold gradient-text mb-2">AI</div>
-                    <p class="text-gray-600 text-sm md:text-base">Coach Always Ready</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- The Problem -->
-    <section class="py-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-16 tracking-tight">The Founder's Dilemma</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-red-50 p-8 rounded-2xl border border-red-100">
-                    <div class="icon-badge bg-red-100 mb-4">🔄</div>
-                    <h3 class="text-xl font-bold mb-3 text-red-900">Constant Switching</h3>
-                    <p class="text-red-800/80">Jumping between courses, templates, legal sites, and investor platforms wastes precious time you should spend building.</p>
-                </div>
-                <div class="bg-red-50 p-8 rounded-2xl border border-red-100">
-                    <div class="icon-badge bg-red-100 mb-4">📚</div>
-                    <h3 class="text-xl font-bold mb-3 text-red-900">Learning Without Doing</h3>
-                    <p class="text-red-800/80">You watch videos and read guides, but your actual startup—the business plan, pitch deck, validation—remains stuck.</p>
-                </div>
-                <div class="bg-red-50 p-8 rounded-2xl border border-red-100">
-                    <div class="icon-badge bg-red-100 mb-4">⚖️</div>
-                    <h3 class="text-xl font-bold mb-3 text-red-900">Legal Black Box</h3>
-                    <p class="text-red-800/80">Understanding country-specific regulations, compliance, and documentation feels overwhelming without expert help.</p>
-                </div>
-                <div class="bg-red-50 p-8 rounded-2xl border border-red-100">
-                    <div class="icon-badge bg-red-100 mb-4">❌</div>
-                    <h3 class="text-xl font-bold mb-3 text-red-900">Skipping Validation</h3>
-                    <p class="text-red-800/80">Customer validation gets postponed. You build in isolation. The market says no. You're back to square one.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- The Solution -->
-    <section class="py-20 px-4 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-4 tracking-tight">One App. One Journey.</h2>
-            <p class="text-center text-gray-600 mb-16 text-lg">Everything you need to go from idea to validated startup.</p>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">🎮</div>
-                    <h3 class="text-2xl font-bold mb-3">Learn by Building</h3>
-                    <p class="text-gray-600">Bite-sized lessons paired with real tasks. Learn customer validation strategies, then run your first customer interview right away.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">🗺️</div>
-                    <h3 class="text-2xl font-bold mb-3">Your Personalized Roadmap</h3>
-                    <p class="text-gray-600">Enter your idea and country. Get a custom six-stage journey adapted to your market and legal requirements.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">📋</div>
-                    <h3 class="text-2xl font-bold mb-3">Generate Real Artifacts</h3>
-                    <p class="text-gray-600">Business plans, value propositions, canvases, financial projections, pitch decks. Create every startup document in one place.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">🤖</div>
-                    <h3 class="text-2xl font-bold mb-3">AI Coach Always Ready</h3>
-                    <p class="text-gray-600">Ask for feedback on your ideas, artifacts, and progress. The Coach reviews your work and suggests improvements in seconds.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">✅</div>
-                    <h3 class="text-2xl font-bold mb-3">Built-in Validation</h3>
-                    <p class="text-gray-600">Customer discovery, interview prep, MVP testing—validation is woven into your journey, not an optional extra.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">⚖️</div>
-                    <h3 class="text-2xl font-bold mb-3">Legal Made Simple</h3>
-                    <p class="text-gray-600">Country-specific guidance on registration, compliance, and legal documents. Keep everything organized in your workspace.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">📊</div>
-                    <h3 class="text-2xl font-bold mb-3">Watch Progress Unfold</h3>
-                    <p class="text-gray-600">Track milestones, unlock achievements, and see your startup dashboard grow. Progress feels real because it is.</p>
-                </div>
-
-                <div class="card-hover bg-white p-8 rounded-2xl border border-blue-100 shadow-sm">
-                    <div class="icon-badge bg-blue-50 mb-4">🎯</div>
-                    <h3 class="text-2xl font-bold mb-3">Everything in Your Pocket</h3>
-                    <p class="text-gray-600">Work on your startup anywhere, anytime. All your artifacts, feedback, and progress sync seamlessly.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-16 tracking-tight">Your Journey in 6 Stages</h2>
-            <div class="space-y-6">
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">1</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Ideation & Setup</h3>
-                        <p class="text-gray-600">Share your startup idea, selected industry, and operating country. The app creates your personalized roadmap instantly.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">2</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Learning & Building</h3>
-                        <p class="text-gray-600">Complete short lessons and actionable tasks. Build real startup artifacts as you learn. Progress tracks automatically.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">3</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Validation & Testing</h3>
-                        <p class="text-gray-600">Run customer interviews, market research, and MVP tests. Collect feedback and refine your idea based on real data.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">4</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Legal & Admin</h3>
-                        <p class="text-gray-600">Get country-specific legal guidance. Generate and organize required documents. Navigate registration and compliance with confidence.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">5</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Launch & Operations</h3>
-                        <p class="text-gray-600">Launch your company. Monitor metrics, manage finances, track growth. Keep using the app as your business operations hub.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6 items-start bg-gray-50 hover:bg-gray-100/70 transition rounded-2xl p-6">
-                    <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-600/20">6</div>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Scale & Fundraise</h3>
-                        <p class="text-gray-600">Prepare for investors. Connect with accelerators and mentors. Access the fundraising ecosystem directly from your dashboard.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Highlight -->
-    <section class="py-20 px-4 bg-gray-50">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-16 tracking-tight">Built for Serious Founders</h2>
-
-            <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-                <div class="grid md:grid-cols-2">
-                    <!-- Left content -->
-                    <div class="p-8 md:p-12">
-                        <div class="space-y-8">
-                            <div>
-                                <h3 class="text-lg font-bold mb-2 text-blue-600">🎯 Realistic Progress</h3>
-                                <p class="text-gray-600">Achievements and milestones that actually mean something. Every unlock represents real work on your startup.</p>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold mb-2 text-blue-600">📱 Mobile-First</h3>
-                                <p class="text-gray-600">Built for founders on the go. Work on your startup between meetings, on the commute, anywhere.</p>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold mb-2 text-blue-600">🔄 Persistent Workspace</h3>
-                                <p class="text-gray-600">All your artifacts, feedback, notes, and progress stay with you. Nothing is lost when you close the app.</p>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold mb-2 text-blue-600">🌍 Country-Smart</h3>
-                                <p class="text-gray-600">Guidance adapts to your market. Legal, compliance, and best practices vary by region—we handle that complexity.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right visual -->
-                    <div class="bg-gradient-to-br from-blue-100 to-purple-100 p-8 md:p-12 flex items-center justify-center">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">📱</div>
-                            <p class="text-gray-700 font-semibold">Coming to iOS & Android</p>
-                            <p class="text-gray-600 text-sm mt-2">Web preview available for beta testers</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Use Cases -->
-    <section class="py-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-16 tracking-tight">Who Should Use Startup Companion?</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl border border-blue-200">
-                    <div class="text-4xl mb-4">💡</div>
-                    <h3 class="text-xl font-bold mb-3">First-Time Founders</h3>
-                    <p class="text-gray-700">You have a great idea but no playbook. We're your step-by-step guide from day one.</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl border border-purple-200">
-                    <div class="text-4xl mb-4">🚀</div>
-                    <h3 class="text-xl font-bold mb-3">Side Hustle Builders</h3>
-                    <p class="text-gray-700">Work on your startup in pockets of time. The app respects your schedule and saves your progress.</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-8 rounded-2xl border border-pink-200">
-                    <div class="text-4xl mb-4">🎓</div>
-                    <h3 class="text-xl font-bold mb-3">Student Entrepreneurs</h3>
-                    <p class="text-gray-700">Learn business fundamentals while building a real startup. Two birds with one stone.</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl border border-green-200">
-                    <div class="text-4xl mb-4">🔄</div>
-                    <h3 class="text-xl font-bold mb-3">Serial Entrepreneurs</h3>
-                    <p class="text-gray-700">Validate new ideas quickly. The framework speeds up your iteration and decision-making.</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl border border-orange-200">
-                    <div class="text-4xl mb-4">🌱</div>
-                    <h3 class="text-xl font-bold mb-3">Career Switchers</h3>
-                    <p class="text-gray-700">Transitioning to entrepreneurship? We teach you the fundamentals and help you build with confidence.</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-8 rounded-2xl border border-cyan-200">
-                    <div class="text-4xl mb-4">🤝</div>
-                    <h3 class="text-xl font-bold mb-3">Co-Founder Teams</h3>
-                    <p class="text-gray-700">Build together. Shared workspace, aligned progress, and structured decision-making.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Beta Program -->
-    <section class="py-20 px-4 gradient-bg">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-4xl font-extrabold mb-6 tracking-tight">Private Beta Coming Soon</h2>
-            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                We're building Startup Companion with real founders. Join our beta and shape the future of entrepreneurial education.
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+                Make your <span class="gradient-text">idea real.</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
+                A clear, guided path from first thought to first customer.
             </p>
-            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mb-8">
-                <p class="text-gray-700 mb-4"><strong>Beta Access Includes:</strong></p>
-                <ul class="text-left inline-block space-y-2 text-gray-600">
-                    <li>✓ Full access to all features</li>
-                    <li>✓ Direct feedback channel with the team</li>
-                    <li>✓ Lifetime discount on Pro subscription</li>
-                    <li>✓ Your name in our founding members list</li>
-                </ul>
+
+            <div class="flex items-center justify-center gap-3 text-2xl md:text-3xl font-bold mb-10 h-10">
+                <span class="cycle-word gradient-text" id="cycle-word">Idea</span>
+                <span class="text-gray-300 text-xl">→</span>
+                <span class="text-gray-400">Build</span>
+                <span class="text-gray-300 text-xl">→</span>
+                <span class="text-gray-400">Launch</span>
             </div>
+
+            <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="group bg-slate-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-lg shadow-indigo-600/10 inline-flex items-center justify-center gap-2">
+                Start building
+                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Chaos → Order -->
+    <section class="relative overflow-hidden py-20 px-4 bg-slate-950">
+        <div class="absolute inset-0 grid-bg-dark"></div>
+        <div class="blob w-[26rem] h-[26rem] bg-indigo-600/25 top-0 -left-24"></div>
+        <div class="blob w-[24rem] h-[24rem] bg-fuchsia-600/20 bottom-0 -right-24"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-center text-white mb-3 tracking-tight">
+                Everything you build, <span class="gradient-text">in one place.</span>
+            </h2>
+            <p class="text-center text-slate-400 mb-8">Flip the switch.</p>
+
+            <div class="flex justify-center mb-6">
+                <div class="relative inline-flex rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur">
+                    <div id="seg-indicator" class="seg-indicator absolute top-1 bottom-1 left-1 w-[8.5rem] rounded-full" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);"></div>
+                    <button id="seg-before" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-white">Today</button>
+                    <button id="seg-after" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-slate-400">With Foundly</button>
+                </div>
+            </div>
+
+            <div id="stage" class="stage">
+                <div class="mess-chip" style="--l: 16%; --t: 16%; --r: -9deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Online course
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 63%; --t: 11%; --r: 7deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Legal blog
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 85%; --t: 30%; --r: -5deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Pitch template
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 12%; --t: 50%; --r: 6deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Spreadsheets
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 88%; --t: 64%; --r: 9deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Random videos
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 20%; --t: 84%; --r: -7deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Scattered notes
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 58%; --t: 90%; --r: 5deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Investor list
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 79%; --t: 4%; --r: -11deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Cold DMs
+                    </span>
+                </div>
+                <div class="mess-chip" style="--l: 38%; --t: 42%; --r: 4deg;">
+                    <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-400"></span>Half-built plan
+                    </span>
+                </div>
+
+                <!-- The one workspace -->
+                <div class="one-app w-80">
+                    <div class="rounded-3xl p-[2px]" style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);">
+                        <div class="rounded-[1.4rem] bg-slate-950 p-6">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="logo-mark">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></svg>
+                                    </div>
+                                    <span class="font-extrabold text-white">Workspace</span>
+                                </div>
+                                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500">4 artifacts</span>
+                            </div>
+                            <div class="space-y-2.5">
+                                <div class="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-2.5">
+                                    <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                    <span class="text-sm font-semibold text-slate-200">Value Proposition Canvas</span>
+                                </div>
+                                <div class="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-2.5">
+                                    <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                    <span class="text-sm font-semibold text-slate-200">Customer Persona</span>
+                                </div>
+                                <div class="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-2.5">
+                                    <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                    <span class="text-sm font-semibold text-slate-200">Interview Plan</span>
+                                </div>
+                                <div class="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-2.5">
+                                    <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                    <span class="text-sm font-semibold text-slate-200">Italy legal checklist</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-slate-500 text-sm mt-6">Every lesson leaves you with something useful for your company.</p>
+        </div>
+    </section>
+
+    <!-- Horizontal roadmap -->
+    <section class="py-20 px-4" style="background: linear-gradient(180deg, #eaf4fe 0%, #f4f8fe 100%);">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-3 tracking-tight">Your path</h2>
+            <p class="text-center text-gray-500 mb-10">Seven stops, from idea to launch. Tap one.</p>
+
+            <div class="road-wrap rounded-3xl border border-blue-100 bg-white/70 backdrop-blur shadow-sm px-6 py-4">
+                <div class="road" id="road">
+                    <div class="cloud w-24 h-8 left-[8%] top-[12%] opacity-70"></div>
+                    <div class="cloud w-16 h-6 left-[46%] top-[6%] opacity-60"></div>
+                    <div class="cloud w-20 h-7 left-[80%] top-[80%] opacity-60"></div>
+
+                    <svg class="road-path" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="road-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0">
+                                <stop offset="0%" stop-color="#4f46e5"/>
+                                <stop offset="50%" stop-color="#7c3aed"/>
+                                <stop offset="100%" stop-color="#db2777"/>
+                            </linearGradient>
+                        </defs>
+                        <path id="road-base"
+                              d="M80,110 C166.7,110 166.7,190 253.3,190 C340,190 340,110 426.7,110 C513.3,110 513.3,190 600,190 C686.7,190 686.7,110 773.3,110 C860,110 860,190 946.7,190 C1033.3,190 1033.3,110 1120,110"
+                              fill="none" stroke="#dbeafe" stroke-width="10" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                        <path id="road-progress"
+                              d="M80,110 C166.7,110 166.7,190 253.3,190 C340,190 340,110 426.7,110 C513.3,110 513.3,190 600,190 C686.7,190 686.7,110 773.3,110 C860,110 860,190 946.7,190 C1033.3,190 1033.3,110 1120,110"
+                              fill="none" stroke="url(#road-grad)" stroke-width="10" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                    </svg>
+
+                    <div class="node" data-step="0" style="left: 6.67%; top: 36.67%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label above">
+                            <div class="node-kicker" style="color:#4f46e5;">Idea</div>
+                            <div class="node-title">Define the problem</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="1" style="left: 21.11%; top: 63.33%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label below">
+                            <div class="node-kicker" style="color:#6d28d9;">Validate</div>
+                            <div class="node-title">Test your riskiest assumption</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="2" style="left: 35.56%; top: 36.67%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label above">
+                            <div class="node-kicker" style="color:#6d28d9;">Validate</div>
+                            <div class="node-title">Talk to five customers</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="3" style="left: 50%; top: 63.33%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label below">
+                            <div class="node-kicker" style="color:#7c3aed;">Plan</div>
+                            <div class="node-title">Shape your value proposition</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="4" style="left: 64.44%; top: 36.67%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label above">
+                            <div class="node-kicker" style="color:#9333ea;">Build</div>
+                            <div class="node-title">Define your MVP</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="5" style="left: 78.89%; top: 63.33%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label below">
+                            <div class="node-kicker" style="color:#c026d3;">Launch</div>
+                            <div class="node-title">Plan your first experiment</div>
+                        </div>
+                    </div>
+                    <div class="node" data-step="6" style="left: 93.33%; top: 36.67%;">
+                        <div class="node-circle"></div>
+                        <div class="node-label above">
+                            <div class="node-kicker" style="color:#db2777;">Grow</div>
+                            <div class="node-title">Build your growth dashboard</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Miso next best action -->
+            <div class="max-w-xl mx-auto mt-8">
+                <div class="rounded-2xl border border-blue-100 bg-white shadow-sm p-5 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-11 h-11 rounded-2xl bg-indigo-50 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5 6.5 4l2.4 1.6a8 8 0 0 1 6.2 0L17.5 4 19 6.5a7 7 0 0 1-1 9.9V19a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2.6a7 7 0 0 1-1-9.9Z"/><path d="M9.5 11.5h.01M14.5 11.5h.01"/></svg>
+                    </div>
+                    <div id="miso-panel" class="flex-grow text-left">
+                        <div class="text-[0.65rem] font-extrabold uppercase tracking-wider text-indigo-600 mb-1">Miso says</div>
+                        <p id="miso-text" class="font-bold text-slate-900">Miso suggests: Define the problem. One small step is enough.</p>
+                        <p id="miso-stop" class="text-sm text-gray-500 mt-1">Stop 1 of 7 · Idea stage</p>
+                    </div>
+                </div>
+                <p class="text-center text-xs text-gray-400 mt-4">
+                    Guided for Italy · United Kingdom · United States. Legal steps are educational examples, not legal advice.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signals -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-center mb-3 tracking-tight">See what is moving.</h2>
+            <p class="text-center text-gray-500 mb-10">Your startup signals, always one tap away.</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 text-center">
+                    <div class="text-2xl font-extrabold gradient-text mb-1">34%</div>
+                    <p class="text-sm font-semibold text-slate-700">Journey progress</p>
+                    <p class="text-xs text-gray-400 mt-0.5">From completed steps</p>
+                </div>
+                <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 text-center">
+                    <div class="text-2xl font-extrabold gradient-text mb-1">3</div>
+                    <p class="text-sm font-semibold text-slate-700">Customer interviews</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Conversations recorded</p>
+                </div>
+                <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 text-center">
+                    <div class="text-2xl font-extrabold gradient-text mb-1">1</div>
+                    <p class="text-sm font-semibold text-slate-700">Experiments</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Active learning loops</p>
+                </div>
+                <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 text-center">
+                    <div class="text-2xl font-extrabold gradient-text mb-1">8 mo</div>
+                    <p class="text-sm font-semibold text-slate-700">Runway</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Cash available</p>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-5">Sample data from the product preview.</p>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section id="download" class="py-20 px-4">
+    <section id="download" class="py-20 px-4 bg-gradient-to-br from-indigo-50/70 via-white to-fuchsia-50/50">
         <div class="max-w-2xl mx-auto text-center">
-            <h2 class="text-4xl font-extrabold mb-6 tracking-tight">Ready to Build?</h2>
-            <p class="text-lg text-gray-600 mb-8">Join hundreds of founders building smarter.</p>
+            <h2 class="text-4xl font-extrabold mb-4 tracking-tight">Ready to start?</h2>
+            <p class="text-lg text-gray-600 mb-6">One useful decision at a time.</p>
+
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-sm text-gray-600">
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Guided roadmap</span>
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Real artifacts</span>
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Miso by your side</span>
+            </div>
 
             <form id="waitlist-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                 <input
@@ -402,67 +441,168 @@
                     id="email"
                     placeholder="your@email.com"
                     required
-                    class="flex-grow px-5 py-4 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    class="flex-grow px-5 py-4 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                 >
                 <button
                     type="submit"
-                    class="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 active:scale-95 transition shadow-lg shadow-blue-600/25 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 whitespace-nowrap"
+                    class="bg-slate-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-lg shadow-indigo-600/10 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 whitespace-nowrap"
                 >
-                    Join the Waitlist
+                    Get early access
                 </button>
             </form>
             <p id="form-message" class="mt-4 text-sm font-medium min-h-[1.25rem]"></p>
-            <p class="text-sm text-gray-500 mt-2">Launching Q4 2025. Beta access starts earlier. No spam, ever.</p>
-            <p class="text-xs text-gray-400 mt-4 max-w-md mx-auto">
-                By joining, you agree that we store your email and basic technical/location metadata (approximate country, browser language) solely to manage the waitlist. We never sell your data.
-            </p>
+            <p class="text-sm text-gray-500 mt-2">Launching Q4 2026. No spam, ever.</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="font-bold mb-4 gradient-text">Startup Companion</h3>
-                    <p class="text-gray-400">Build your startup smarter, faster, together.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Product</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="#" class="hover:text-white">Features</a></li>
-                        <li><a href="#" class="hover:text-white">Roadmap</a></li>
-                        <li><a href="#" class="hover:text-white">Pricing</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="#" class="hover:text-white">About</a></li>
-                        <li><a href="#" class="hover:text-white">Blog</a></li>
-                        <li><a href="#" class="hover:text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="#" class="hover:text-white">Privacy</a></li>
-                        <li><a href="#" class="hover:text-white">Terms</a></li>
-                    </ul>
-                </div>
+    <footer class="bg-gray-900 text-white py-8 px-4">
+        <div class="max-w-3xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+            <span class="font-bold gradient-text">Foundly</span>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white">Privacy</a>
+                <a href="#" class="hover:text-white">Terms</a>
+                <a href="#" class="hover:text-white">Contact</a>
             </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 Startup Companion. All rights reserved.</p>
-            </div>
+            <span>&copy; 2026 Foundly.</span>
         </div>
     </footer>
 
     <script>
-        // Add shadow to nav on scroll
+        // Nav shadow on scroll
         const navBar = document.getElementById('nav-bar');
         window.addEventListener('scroll', () => {
             navBar.classList.toggle('scrolled', window.scrollY > 8);
         });
+    </script>
+
+    <script>
+        // Hero word cycle
+        const cycleWords = ['Idea', 'Validate', 'Plan'];
+        let cycleIndex = 0;
+        const cycleEl = document.getElementById('cycle-word');
+        setInterval(() => {
+            cycleIndex = (cycleIndex + 1) % cycleWords.length;
+            cycleEl.style.opacity = 0;
+            setTimeout(() => {
+                cycleEl.textContent = cycleWords[cycleIndex];
+                cycleEl.style.opacity = 1;
+            }, 300);
+        }, 1800);
+    </script>
+
+    <script>
+        // Chaos → Order toggle
+        const stage = document.getElementById('stage');
+        const segBefore = document.getElementById('seg-before');
+        const segAfter = document.getElementById('seg-after');
+        const segIndicator = document.getElementById('seg-indicator');
+
+        function setTidy(tidy) {
+            stage.classList.toggle('tidy', tidy);
+            segIndicator.style.transform = tidy ? 'translateX(100%)' : 'translateX(0)';
+            segBefore.classList.toggle('text-white', !tidy);
+            segBefore.classList.toggle('text-slate-400', tidy);
+            segAfter.classList.toggle('text-white', tidy);
+            segAfter.classList.toggle('text-slate-400', !tidy);
+        }
+
+        segBefore.addEventListener('click', () => setTidy(false));
+        segAfter.addEventListener('click', () => setTidy(true));
+
+        // Auto-play the payoff once, the first time the section is seen
+        let autoPlayed = false;
+        const stageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !autoPlayed) {
+                    autoPlayed = true;
+                    setTimeout(() => setTidy(true), 1100);
+                }
+            });
+        }, { threshold: 0.45 });
+        stageObserver.observe(stage);
+    </script>
+
+    <script>
+        // Horizontal roadmap — the seven stops from the app
+        const stops = [
+            { stage: 'Idea',     action: 'Define the problem',            icon: 'idea' },
+            { stage: 'Validate', action: 'Test your riskiest assumption', icon: 'target' },
+            { stage: 'Validate', action: 'Talk to five customers',        icon: 'people' },
+            { stage: 'Plan',     action: 'Shape your value proposition',  icon: 'compass' },
+            { stage: 'Build',    action: 'Define your MVP',               icon: 'box' },
+            { stage: 'Launch',   action: 'Plan your first experiment',    icon: 'rocket' },
+            { stage: 'Grow',     action: 'Build your growth dashboard',   icon: 'chart' },
+        ];
+
+        const icons = {
+            check:   '<path d="M20 6 9 17l-5-5"/>',
+            lock:    '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+            idea:    '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.7 10.7c.5.4.7 1 .7 1.6V16h6v-.7c0-.6.2-1.2.7-1.6A6 6 0 0 0 12 3Z"/>',
+            target:  '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none"/>',
+            people:  '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.3"/>',
+            compass: '<circle cx="12" cy="12" r="9"/><path d="m15 9-2 4-4 2 2-4 4-2Z"/>',
+            box:     '<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/>',
+            rocket:  '<path d="M12 2c3 2 5 6 4 11l-4 4-4-4c-1-5 1-9 4-11Z"/><circle cx="12" cy="9" r="1.4"/><path d="M9 15l-2 4M15 15l2 4"/>',
+            chart:   '<path d="M4 19V9M10 19V5M16 19v-7M4 19h16"/>',
+        };
+
+        const roadNodes = [...document.querySelectorAll('#road .node')];
+        const roadProgress = document.getElementById('road-progress');
+        const roadLength = roadProgress.getTotalLength();
+        const misoText = document.getElementById('miso-text');
+        const misoStop = document.getElementById('miso-stop');
+        const misoPanel = document.getElementById('miso-panel');
+
+        function svgWrap(paths) {
+            return `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+        }
+
+        function setRoadStep(index) {
+            roadNodes.forEach((node, i) => {
+                node.classList.remove('done', 'current', 'locked');
+                const circle = node.querySelector('.node-circle');
+                const label = node.querySelector('.node-label');
+                const oldBadge = label.querySelector('.node-badge');
+                if (oldBadge) oldBadge.remove();
+
+                if (i < index) {
+                    node.classList.add('done');
+                    circle.innerHTML = svgWrap(icons.check);
+                    label.insertAdjacentHTML('beforeend', '<div class="node-badge bg-slate-100 text-slate-500">Done</div>');
+                } else if (i === index) {
+                    node.classList.add('current');
+                    circle.innerHTML = svgWrap(icons[stops[i].icon]);
+                    label.insertAdjacentHTML('beforeend', '<div class="node-badge bg-indigo-50 text-indigo-700">You are here</div>');
+                } else {
+                    node.classList.add('locked');
+                    circle.innerHTML = svgWrap(icons.lock);
+                }
+            });
+
+            const fraction = index / (roadNodes.length - 1);
+            roadProgress.style.strokeDasharray = roadLength;
+            roadProgress.style.strokeDashoffset = roadLength * (1 - fraction);
+
+            // Miso follows the selected stop
+            const stop = stops[index];
+            misoPanel.style.opacity = 0;
+            misoPanel.style.transform = 'translateY(4px)';
+            setTimeout(() => {
+                misoText.textContent = `Miso suggests: ${stop.action}. One small step is enough.`;
+                misoStop.textContent = `Stop ${index + 1} of ${stops.length} · ${stop.stage} stage`;
+                misoPanel.style.opacity = 1;
+                misoPanel.style.transform = 'translateY(0)';
+            }, 180);
+        }
+
+        roadNodes.forEach(node => {
+            node.querySelector('.node-circle').addEventListener('click', () => {
+                setRoadStep(Number(node.dataset.step));
+            });
+        });
+
+        setRoadStep(0);
     </script>
 
     <script>
@@ -541,10 +681,10 @@
                 });
 
                 if (response.ok) {
-                    showMessage(`Thanks! We'll notify ${email} when beta access opens.`, false);
+                    showMessage(`Thanks! We'll notify ${email} when early access opens.`, false);
                     form.reset();
                 } else if (response.status === 409) {
-                    showMessage("You're already on the waitlist!", false);
+                    showMessage("You're already on the list!", false);
                     form.reset();
                 } else {
                     const errText = await response.text();
@@ -556,7 +696,7 @@
                 showMessage('Connection error. Please try again.', true);
             } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = 'Join the Waitlist';
+                submitButton.textContent = 'Get early access';
             }
         });
     </script>
