@@ -384,8 +384,8 @@
                         <p id="miso-stop" class="text-sm text-gray-500 mt-1">Stop 1 of 7 · Idea stage</p>
                     </div>
                 </div>
-                <p class="text-center text-xs text-gray-400 mt-4">
-                    Guided for Italy · United Kingdom · United States. Legal steps are educational examples, not legal advice.
+                <p id="guidance-text" class="text-center text-xs text-gray-400 mt-4">
+                    Guided for Italy · India. Legal steps are educational examples, not legal advice.
                 </p>
             </div>
         </div>
@@ -519,6 +519,139 @@
             <span>&copy; 2026 Foundly.</span>
         </div>
     </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                'nav-cta': 'Get early access',
+                'hero-idea': 'idea',
+                'hero-title': 'Make your',
+                'hero-title-highlight': 'idea real.',
+                'hero-subtitle': 'A clear, guided path from first thought to first customer.',
+                'hero-cta': 'Sign up for the preview',
+                'chaos-title': 'Everything you build,',
+                'chaos-title-highlight': 'in one place.',
+                'chaos-subtitle': 'Flip the switch.',
+                'chaos-today': 'Today',
+                'chaos-with-foundly': 'With Foundly',
+                'chaos-footer': 'Every lesson leaves you with something useful for your company.',
+                'roadmap-title': 'Your path',
+                'roadmap-subtitle': 'Seven stops, from idea to launch. Tap one.',
+                'miso-kicker': 'Miso says',
+                'roadmap-footer': 'Guided for Italy · India. Legal steps are educational examples, not legal advice.',
+                'signals-title': 'See what is moving.',
+                'signals-subtitle': 'Your startup signals, always one tap away.',
+                'cta-title': 'Ready to start?',
+                'cta-subtitle': 'One useful decision at a time.',
+                'cta-guided': 'Guided roadmap',
+                'cta-artifacts': 'Real artifacts',
+                'cta-miso': 'Miso by your side',
+                'form-email': 'Email',
+                'form-age': 'Age (optional)',
+                'form-profession': "What's your profession or field of study? (optional)",
+                'form-why': 'Why would this app be useful for you? (optional)',
+                'form-advice': "Is there anything else you'd like us to know? (optional)",
+                'form-submit': 'Get early access',
+                'form-launch': 'Launching Q4 2026. No spam, ever.',
+                'footer-privacy': 'Privacy',
+                'footer-terms': 'Terms',
+                'footer-contact': 'Contact',
+            },
+            it: {
+                'nav-cta': 'Accedi in anteprima',
+                'hero-idea': 'Idea',
+                'hero-title': 'Rendi la tua',
+                'hero-title-highlight': 'idea reale.',
+                'hero-subtitle': 'Un percorso chiaro e guidato dal primo pensiero al primo cliente.',
+                'hero-cta': 'Iscriviti all\'anteprima',
+                'chaos-title': 'Tutto quello che costruisci,',
+                'chaos-title-highlight': 'in un unico posto.',
+                'chaos-subtitle': 'Attiva l\'interruttore.',
+                'chaos-today': 'Oggi',
+                'chaos-with-foundly': 'Con Foundly',
+                'chaos-footer': 'Ogni lezione ti lascia con qualcosa di utile per la tua azienda.',
+                'roadmap-title': 'Il tuo percorso',
+                'roadmap-subtitle': 'Sette tappe, dall\'idea al lancio. Tocca una.',
+                'miso-kicker': 'Miso suggerisce',
+                'roadmap-footer': 'Guidato per Italia · India. Le fasi legali sono esempi educativi, non consigli legali.',
+                'signals-title': 'Vedi cosa si muove.',
+                'signals-subtitle': 'I tuoi segnali di startup, sempre a portata di tocco.',
+                'cta-title': 'Pronto per iniziare?',
+                'cta-subtitle': 'Una decisione utile alla volta.',
+                'cta-guided': 'Roadmap guidata',
+                'cta-artifacts': 'Artefatti reali',
+                'cta-miso': 'Miso al tuo fianco',
+                'form-email': 'Email',
+                'form-age': 'Età (opzionale)',
+                'form-profession': 'Qual è la tua professione o il tuo campo di studio? (opzionale)',
+                'form-why': 'Perché questa app ti sarebbe utile? (opzionale)',
+                'form-advice': 'C\'è altro che vorresti che sapessimo? (opzionale)',
+                'form-submit': 'Accedi in anteprima',
+                'form-launch': 'Lancio Q4 2026. Nessuno spam, mai.',
+                'footer-privacy': 'Privacy',
+                'footer-terms': 'Termini',
+                'footer-contact': 'Contatti',
+            }
+        };
+
+        let currentLang = 'en';
+
+        function t(key) {
+            return translations[currentLang]?.[key] || translations['en'][key] || key;
+        }
+
+        async function detectAndSetLanguage() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                if (!res.ok) throw new Error('geo lookup failed');
+                const data = await res.json();
+                const country = data.country_code?.toUpperCase();
+
+                // Set language based on country
+                if (country === 'IT' || country === 'IN') {
+                    currentLang = country === 'IT' ? 'it' : 'en';
+                }
+
+                applyTranslations();
+            } catch (err) {
+                console.warn('Language detection skipped:', err);
+                applyTranslations();
+            }
+        }
+
+        function applyTranslations() {
+            // Hero section
+            document.getElementById('cycle-word').textContent = t('hero-idea');
+
+            // Form labels
+            const emailLabel = document.querySelector('label[for="email"]');
+            if (emailLabel) emailLabel.textContent = t('form-email');
+
+            const ageLabel = document.querySelector('label[for="age"]');
+            if (ageLabel) ageLabel.textContent = t('form-age');
+
+            const profLabel = document.querySelector('label[for="profession"]');
+            if (profLabel) profLabel.textContent = t('form-profession');
+
+            const whyLabel = document.querySelector('label[for="why-useful"]');
+            if (whyLabel) whyLabel.textContent = t('form-why');
+
+            const adviceLabel = document.querySelector('label[for="advice"]');
+            if (adviceLabel) adviceLabel.textContent = t('form-advice');
+
+            // Form button
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.textContent = t('form-submit');
+
+            // Guidance text
+            const guidanceText = document.getElementById('guidance-text');
+            if (guidanceText) guidanceText.textContent = t('roadmap-footer');
+        }
+
+        // Run language detection when page loads
+        window.addEventListener('load', detectAndSetLanguage);
+    </script>
 
     <script>
         // Nav shadow on scroll
