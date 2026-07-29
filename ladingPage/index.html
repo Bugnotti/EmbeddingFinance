@@ -435,17 +435,69 @@
                 <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Miso by your side</span>
             </div>
 
-            <form id="waitlist-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="your@email.com"
-                    required
-                    class="flex-grow px-5 py-4 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                >
+            <form id="waitlist-form" class="space-y-4 max-w-md mx-auto text-left">
+                <!-- Email (required) -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="your@email.com"
+                        required
+                        class="w-full px-5 py-4 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    >
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age (optional)</label>
+                    <input
+                        type="number"
+                        id="age"
+                        placeholder="e.g., 28"
+                        min="13"
+                        max="120"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    >
+                </div>
+
+                <!-- Profession/Study -->
+                <div>
+                    <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">What's your profession or field of study? (optional)</label>
+                    <input
+                        type="text"
+                        id="profession"
+                        placeholder="e.g., Student, Software Engineer, Designer..."
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    >
+                </div>
+
+                <!-- Why useful -->
+                <div>
+                    <label for="why-useful" class="block text-sm font-medium text-gray-700 mb-1">Why would this app be useful for you? (optional)</label>
+                    <textarea
+                        id="why-useful"
+                        placeholder="Tell us how Foundly could help you..."
+                        rows="3"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    ></textarea>
+                </div>
+
+                <!-- Additional advice -->
+                <div>
+                    <label for="advice" class="block text-sm font-medium text-gray-700 mb-1">Is there anything else you'd like us to know? (optional)</label>
+                    <textarea
+                        id="advice"
+                        placeholder="Feedback, feature requests, or anything else..."
+                        rows="3"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    ></textarea>
+                </div>
+
+                <!-- Submit button -->
                 <button
                     type="submit"
-                    class="bg-slate-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-lg shadow-indigo-600/10 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 whitespace-nowrap"
+                    class="w-full bg-slate-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-lg shadow-indigo-600/10 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
                 >
                     Get early access
                 </button>
@@ -657,6 +709,12 @@
             const email = document.getElementById('email').value.trim();
             if (!email) return;
 
+            // Collect optional fields (empty string if not filled)
+            const age = document.getElementById('age').value ? parseInt(document.getElementById('age').value) : null;
+            const profession = document.getElementById('profession').value.trim() || null;
+            const whyUseful = document.getElementById('why-useful').value.trim() || null;
+            const advice = document.getElementById('advice').value.trim() || null;
+
             submitButton.disabled = true;
             submitButton.textContent = 'Submitting...';
             showMessage('', false);
@@ -667,7 +725,15 @@
                     Promise.resolve(getBrowserMetadata()),
                 ]);
 
-                const payload = { email, ...geo, ...browserMeta };
+                const payload = {
+                    email,
+                    age,
+                    profession,
+                    why_useful: whyUseful,
+                    additional_feedback: advice,
+                    ...geo,
+                    ...browserMeta
+                };
 
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/${WAITLIST_TABLE}`, {
                     method: 'POST',
