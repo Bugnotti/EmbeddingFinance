@@ -161,12 +161,12 @@
                 <span class="relative flex h-2 w-2">
                     <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-indigo-500"></span>
                 </span>
-                Your startup companion
+                <span id="hero-badge">Your startup companion</span>
             </div>
             <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
-                Make your <span class="gradient-text">idea real.</span>
+                <span id="hero-title">Make your </span><span class="gradient-text"><span id="hero-highlight">idea real.</span></span>
             </h1>
-            <p class="text-xl text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
+            <p id="hero-subtitle" class="text-xl text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
                 A clear, guided path from first thought to first customer.
             </p>
 
@@ -179,7 +179,7 @@
             </div>
 
             <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="group bg-slate-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-lg shadow-indigo-600/10 inline-flex items-center justify-center gap-2">
-                Sign up for the preview
+                <span id="hero-cta">Sign up for the preview</span>
                 <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
         </div>
@@ -193,15 +193,15 @@
 
         <div class="max-w-4xl mx-auto relative z-10">
             <h2 class="text-3xl md:text-5xl font-extrabold text-center text-white mb-3 tracking-tight">
-                Everything you build, <span class="gradient-text">in one place.</span>
+                <span id="chaos-title">Everything you build, </span><span class="gradient-text"><span id="chaos-highlight">in one place.</span></span>
             </h2>
-            <p class="text-center text-slate-400 mb-8">Flip the switch.</p>
+            <p id="chaos-subtitle" class="text-center text-slate-400 mb-8">Flip the switch.</p>
 
             <div class="flex justify-center mb-6">
                 <div class="relative inline-flex rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur">
                     <div id="seg-indicator" class="seg-indicator absolute top-1 bottom-1 left-1 w-[8.5rem] rounded-full" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);"></div>
-                    <button id="seg-before" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-white">Today</button>
-                    <button id="seg-after" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-slate-400">With Foundly</button>
+                    <button id="seg-before" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-white"><span id="chaos-today">Today</span></button>
+                    <button id="seg-after" class="seg-btn relative z-10 w-[8.5rem] py-2.5 text-sm font-bold text-slate-400"><span id="chaos-with">With Foundly</span></button>
                 </div>
             </div>
 
@@ -280,7 +280,7 @@
                                 </div>
                                 <div class="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-2.5">
                                     <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                                    <span class="text-sm font-semibold text-slate-200">Italy legal checklist</span>
+                                    <span class="text-sm font-semibold text-slate-200">Compliance checklist</span>
                                 </div>
                             </div>
                         </div>
@@ -288,15 +288,15 @@
                 </div>
             </div>
 
-            <p class="text-center text-slate-500 text-sm mt-6">Every lesson leaves you with something useful for your company.</p>
+            <p id="chaos-footer" class="text-center text-slate-500 text-sm mt-6">Every lesson leaves you with something useful for your company.</p>
         </div>
     </section>
 
     <!-- Horizontal roadmap -->
     <section class="py-20 px-4" style="background: linear-gradient(180deg, #eaf4fe 0%, #f4f8fe 100%);">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-3 tracking-tight">Your path</h2>
-            <p class="text-center text-gray-500 mb-10">Seven stops, from idea to launch. Tap one.</p>
+            <h2 id="roadmap-title" class="text-3xl md:text-4xl font-extrabold text-center mb-3 tracking-tight">Your path</h2>
+            <p id="roadmap-subtitle" class="text-center text-gray-500 mb-10">Seven stops, from idea to launch. Tap one.</p>
 
             <div class="road-wrap rounded-3xl border border-blue-100 bg-white/70 backdrop-blur shadow-sm px-6 py-4">
                 <div class="road" id="road">
@@ -324,49 +324,49 @@
                         <div class="node-circle"></div>
                         <div class="node-label above">
                             <div class="node-kicker" style="color:#4f46e5;">Idea</div>
-                            <div class="node-title">Define the problem</div>
+                            <div class="node-title" data-step-id="0">Define the problem</div>
                         </div>
                     </div>
                     <div class="node" data-step="1" style="left: 21.11%; top: 63.33%;">
                         <div class="node-circle"></div>
                         <div class="node-label below">
                             <div class="node-kicker" style="color:#6d28d9;">Validate</div>
-                            <div class="node-title">Test your riskiest assumption</div>
+                            <div class="node-title" data-step-id="1">Test your riskiest assumption</div>
                         </div>
                     </div>
                     <div class="node" data-step="2" style="left: 35.56%; top: 36.67%;">
                         <div class="node-circle"></div>
                         <div class="node-label above">
                             <div class="node-kicker" style="color:#6d28d9;">Validate</div>
-                            <div class="node-title">Talk to five customers</div>
+                            <div class="node-title" data-step-id="2">Talk to five customers</div>
                         </div>
                     </div>
                     <div class="node" data-step="3" style="left: 50%; top: 63.33%;">
                         <div class="node-circle"></div>
                         <div class="node-label below">
                             <div class="node-kicker" style="color:#7c3aed;">Plan</div>
-                            <div class="node-title">Shape your value proposition</div>
+                            <div class="node-title" data-step-id="3">Shape your value proposition</div>
                         </div>
                     </div>
                     <div class="node" data-step="4" style="left: 64.44%; top: 36.67%;">
                         <div class="node-circle"></div>
                         <div class="node-label above">
                             <div class="node-kicker" style="color:#9333ea;">Build</div>
-                            <div class="node-title">Define your MVP</div>
+                            <div class="node-title" data-step-id="4">Define your MVP</div>
                         </div>
                     </div>
                     <div class="node" data-step="5" style="left: 78.89%; top: 63.33%;">
                         <div class="node-circle"></div>
                         <div class="node-label below">
                             <div class="node-kicker" style="color:#c026d3;">Launch</div>
-                            <div class="node-title">Plan your first experiment</div>
+                            <div class="node-title" data-step-id="5">Plan your first experiment</div>
                         </div>
                     </div>
                     <div class="node" data-step="6" style="left: 93.33%; top: 36.67%;">
                         <div class="node-circle"></div>
                         <div class="node-label above">
                             <div class="node-kicker" style="color:#db2777;">Grow</div>
-                            <div class="node-title">Build your growth dashboard</div>
+                            <div class="node-title" data-step-id="6">Build your growth dashboard</div>
                         </div>
                     </div>
                 </div>
@@ -379,7 +379,7 @@
                         <svg class="w-6 h-6 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5 6.5 4l2.4 1.6a8 8 0 0 1 6.2 0L17.5 4 19 6.5a7 7 0 0 1-1 9.9V19a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2.6a7 7 0 0 1-1-9.9Z"/><path d="M9.5 11.5h.01M14.5 11.5h.01"/></svg>
                     </div>
                     <div id="miso-panel" class="flex-grow text-left">
-                        <div class="text-[0.65rem] font-extrabold uppercase tracking-wider text-indigo-600 mb-1">Miso says</div>
+                        <div id="miso-kicker" class="text-[0.65rem] font-extrabold uppercase tracking-wider text-indigo-600 mb-1">Miso says</div>
                         <p id="miso-text" class="font-bold text-slate-900">Miso suggests: Define the problem. One small step is enough.</p>
                         <p id="miso-stop" class="text-sm text-gray-500 mt-1">Stop 1 of 7 · Idea stage</p>
                     </div>
@@ -394,8 +394,8 @@
     <!-- Signals -->
     <section class="py-16 px-4">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-center mb-3 tracking-tight">See what is moving.</h2>
-            <p class="text-center text-gray-500 mb-10">Your startup signals, always one tap away.</p>
+            <h2 id="signals-title" class="text-2xl md:text-3xl font-extrabold text-center mb-3 tracking-tight">See what is moving.</h2>
+            <p id="signals-subtitle" class="text-center text-gray-500 mb-10">Your startup signals, always one tap away.</p>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 text-center">
@@ -426,13 +426,13 @@
     <!-- CTA Section -->
     <section id="download" class="py-20 px-4 bg-gradient-to-br from-indigo-50/70 via-white to-fuchsia-50/50">
         <div class="max-w-2xl mx-auto text-center">
-            <h2 class="text-4xl font-extrabold mb-4 tracking-tight">Ready to start?</h2>
-            <p class="text-lg text-gray-600 mb-6">One useful decision at a time.</p>
+            <h2 id="cta-title" class="text-4xl font-extrabold mb-4 tracking-tight">Ready to start?</h2>
+            <p id="cta-subtitle" class="text-lg text-gray-600 mb-6">One useful decision at a time.</p>
 
             <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-sm text-gray-600">
-                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Guided roadmap</span>
-                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Real artifacts</span>
-                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Miso by your side</span>
+                <span id="cta-roadmap" class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Guided roadmap</span>
+                <span id="cta-artifacts" class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Real artifacts</span>
+                <span id="cta-miso" class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Miso by your side</span>
             </div>
 
             <form id="waitlist-form" class="space-y-4 max-w-md mx-auto text-left">
@@ -503,7 +503,7 @@
                 </button>
             </form>
             <p id="form-message" class="mt-4 text-sm font-medium min-h-[1.25rem]"></p>
-            <p class="text-sm text-gray-500 mt-2">Launching Q4 2026. No spam, ever.</p>
+            <p id="cta-launch" class="text-sm text-gray-500 mt-2">Launching Q4 2026. No spam, ever.</p>
         </div>
     </section>
 
@@ -512,9 +512,9 @@
         <div class="max-w-3xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
             <span class="font-bold gradient-text">Foundly</span>
             <div class="flex gap-6">
-                <a href="#" class="hover:text-white">Privacy</a>
-                <a href="#" class="hover:text-white">Terms</a>
-                <a href="#" class="hover:text-white">Contact</a>
+                <a id="footer-privacy" href="#" class="hover:text-white">Privacy</a>
+                <a id="footer-terms" href="#" class="hover:text-white">Terms</a>
+                <a id="footer-contact" href="#" class="hover:text-white">Contact</a>
             </div>
             <span>&copy; 2026 Foundly.</span>
         </div>
@@ -524,74 +524,84 @@
         // Translations
         const translations = {
             en: {
-                'nav-cta': 'Get early access',
-                'hero-idea': 'idea',
-                'hero-title': 'Make your',
-                'hero-title-highlight': 'idea real.',
+                'hero-badge': 'Your startup companion',
+                'hero-title': 'Make your ',
+                'hero-highlight': 'idea real.',
                 'hero-subtitle': 'A clear, guided path from first thought to first customer.',
                 'hero-cta': 'Sign up for the preview',
-                'chaos-title': 'Everything you build,',
-                'chaos-title-highlight': 'in one place.',
+                'hero-idea': 'Idea',
+                'chaos-title': 'Everything you build, ',
+                'chaos-highlight': 'in one place.',
                 'chaos-subtitle': 'Flip the switch.',
                 'chaos-today': 'Today',
-                'chaos-with-foundly': 'With Foundly',
+                'chaos-with': 'With Foundly',
                 'chaos-footer': 'Every lesson leaves you with something useful for your company.',
                 'roadmap-title': 'Your path',
                 'roadmap-subtitle': 'Seven stops, from idea to launch. Tap one.',
                 'miso-kicker': 'Miso says',
-                'roadmap-footer': 'Guided for Italy · India. Legal steps are educational examples, not legal advice.',
                 'signals-title': 'See what is moving.',
                 'signals-subtitle': 'Your startup signals, always one tap away.',
                 'cta-title': 'Ready to start?',
                 'cta-subtitle': 'One useful decision at a time.',
-                'cta-guided': 'Guided roadmap',
+                'cta-roadmap': 'Guided roadmap',
                 'cta-artifacts': 'Real artifacts',
                 'cta-miso': 'Miso by your side',
+                'cta-launch': 'Launching Q4 2026.',
                 'form-email': 'Email',
+                'form-email-placeholder': 'your@email.com',
                 'form-age': 'Age (optional)',
+                'form-age-placeholder': 'e.g., 28',
                 'form-profession': "What's your profession or field of study? (optional)",
+                'form-profession-placeholder': 'e.g., Student, Software Engineer, Designer...',
                 'form-why': 'Why would this app be useful for you? (optional)',
+                'form-why-placeholder': 'Tell us how Foundly could help you...',
                 'form-advice': "Is there anything else you'd like us to know? (optional)",
+                'form-advice-placeholder': 'Feedback, feature requests, or anything else...',
                 'form-submit': 'Get early access',
-                'form-launch': 'Launching Q4 2026. No spam, ever.',
                 'footer-privacy': 'Privacy',
                 'footer-terms': 'Terms',
                 'footer-contact': 'Contact',
+                'guidance-text': 'Guided for countries around the world. Business steps are educational examples, not professional advice.',
             },
             it: {
-                'nav-cta': 'Accedi in anteprima',
-                'hero-idea': 'Idea',
-                'hero-title': 'Rendi la tua',
-                'hero-title-highlight': 'idea reale.',
+                'hero-badge': 'Il tuo compagno di startup',
+                'hero-title': 'Rendi la tua ',
+                'hero-highlight': 'idea reale.',
                 'hero-subtitle': 'Un percorso chiaro e guidato dal primo pensiero al primo cliente.',
                 'hero-cta': 'Iscriviti all\'anteprima',
-                'chaos-title': 'Tutto quello che costruisci,',
-                'chaos-title-highlight': 'in un unico posto.',
+                'hero-idea': 'Idea',
+                'chaos-title': 'Tutto quello che costruisci, ',
+                'chaos-highlight': 'in un unico posto.',
                 'chaos-subtitle': 'Attiva l\'interruttore.',
                 'chaos-today': 'Oggi',
-                'chaos-with-foundly': 'Con Foundly',
+                'chaos-with': 'Con Foundly',
                 'chaos-footer': 'Ogni lezione ti lascia con qualcosa di utile per la tua azienda.',
                 'roadmap-title': 'Il tuo percorso',
                 'roadmap-subtitle': 'Sette tappe, dall\'idea al lancio. Tocca una.',
                 'miso-kicker': 'Miso suggerisce',
-                'roadmap-footer': 'Guidato per Italia · India. Le fasi legali sono esempi educativi, non consigli legali.',
                 'signals-title': 'Vedi cosa si muove.',
                 'signals-subtitle': 'I tuoi segnali di startup, sempre a portata di tocco.',
                 'cta-title': 'Pronto per iniziare?',
                 'cta-subtitle': 'Una decisione utile alla volta.',
-                'cta-guided': 'Roadmap guidata',
+                'cta-roadmap': 'Roadmap guidata',
                 'cta-artifacts': 'Artefatti reali',
                 'cta-miso': 'Miso al tuo fianco',
+                'cta-launch': 'Lancio Q4 2026.',
                 'form-email': 'Email',
+                'form-email-placeholder': 'tua@email.com',
                 'form-age': 'Età (opzionale)',
+                'form-age-placeholder': 'es., 28',
                 'form-profession': 'Qual è la tua professione o il tuo campo di studio? (opzionale)',
+                'form-profession-placeholder': 'es., Studente, Ingegnere Software, Designer...',
                 'form-why': 'Perché questa app ti sarebbe utile? (opzionale)',
+                'form-why-placeholder': 'Raccontaci come Foundly potrebbe aiutarti...',
                 'form-advice': 'C\'è altro che vorresti che sapessimo? (opzionale)',
+                'form-advice-placeholder': 'Feedback, suggerimenti per funzionalità, o altro...',
                 'form-submit': 'Accedi in anteprima',
-                'form-launch': 'Lancio Q4 2026. Nessuno spam, mai.',
                 'footer-privacy': 'Privacy',
                 'footer-terms': 'Termini',
                 'footer-contact': 'Contatti',
+                'guidance-text': 'Guidato per paesi in tutto il mondo. Le fasi aziendali sono esempi educativi, non consigli professionali.',
             }
         };
 
@@ -601,7 +611,48 @@
             return translations[currentLang]?.[key] || translations['en'][key] || key;
         }
 
+        // Check URL parameter and localStorage for lang preference
+        function checkUrlLanguage() {
+            // Try localStorage first (persists user preference)
+            const savedLang = localStorage.getItem('foundly-lang');
+            if (savedLang && translations[savedLang]) {
+                currentLang = savedLang;
+                console.log('✓ Language loaded from localStorage:', currentLang);
+                return true;
+            }
+
+            // Try query params for production (when served via http)
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            if (urlLang && translations[urlLang]) {
+                currentLang = urlLang;
+                localStorage.setItem('foundly-lang', urlLang);
+                console.log('✓ Language set from query params:', currentLang);
+                return true;
+            }
+
+            console.log('ℹ No language preference set, using default (en)');
+            return false;
+        }
+
+        // Function to change language
+        window.setLanguage = function(lang) {
+            if (translations[lang]) {
+                currentLang = lang;
+                localStorage.setItem('foundly-lang', lang);
+                applyTranslations();
+                console.log('Language changed to:', lang);
+            }
+        }
+
         async function detectAndSetLanguage() {
+            console.log('detectAndSetLanguage() called');
+            // First check if language is specified in URL
+            if (checkUrlLanguage()) {
+                applyTranslations();
+                return;
+            }
+
             try {
                 const res = await fetch('https://ipapi.co/json/');
                 if (!res.ok) throw new Error('geo lookup failed');
@@ -609,8 +660,10 @@
                 const country = data.country_code?.toUpperCase();
 
                 // Set language based on country
-                if (country === 'IT' || country === 'IN') {
-                    currentLang = country === 'IT' ? 'it' : 'en';
+                if (country === 'IT') {
+                    currentLang = 'it';
+                } else if (country === 'IN') {
+                    currentLang = 'en';
                 }
 
                 applyTranslations();
@@ -621,32 +674,114 @@
         }
 
         function applyTranslations() {
+            console.log('Applying translations for language:', currentLang);
+
+            // Helper to update element text content
+            const updateEl = (id, key) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = t(key);
+            };
+
             // Hero section
-            document.getElementById('cycle-word').textContent = t('hero-idea');
+            updateEl('hero-badge', 'hero-badge');
+            updateEl('hero-title', 'hero-title');
+            updateEl('hero-highlight', 'hero-highlight');
+            updateEl('hero-subtitle', 'hero-subtitle');
+            updateEl('hero-cta', 'hero-cta');
+            updateEl('cycle-word', 'hero-idea');
+
+            // Chaos section
+            updateEl('chaos-title', 'chaos-title');
+            updateEl('chaos-highlight', 'chaos-highlight');
+            updateEl('chaos-subtitle', 'chaos-subtitle');
+            updateEl('chaos-today', 'chaos-today');
+            updateEl('chaos-with', 'chaos-with');
+            updateEl('chaos-footer', 'chaos-footer');
+
+            // Roadmap section
+            updateEl('roadmap-title', 'roadmap-title');
+            updateEl('roadmap-subtitle', 'roadmap-subtitle');
+            updateEl('miso-kicker', 'miso-kicker');
+
+            // Signals section
+            updateEl('signals-title', 'signals-title');
+            updateEl('signals-subtitle', 'signals-subtitle');
+
+            // CTA section
+            updateEl('cta-title', 'cta-title');
+            updateEl('cta-subtitle', 'cta-subtitle');
+            updateEl('cta-roadmap', 'cta-roadmap');
+            updateEl('cta-artifacts', 'cta-artifacts');
+            updateEl('cta-miso', 'cta-miso');
+            updateEl('cta-launch', 'cta-launch');
 
             // Form labels
-            const emailLabel = document.querySelector('label[for="email"]');
-            if (emailLabel) emailLabel.textContent = t('form-email');
+            document.querySelectorAll('label[for="email"]').forEach(el => {
+                el.textContent = t('form-email');
+            });
 
-            const ageLabel = document.querySelector('label[for="age"]');
-            if (ageLabel) ageLabel.textContent = t('form-age');
+            document.querySelectorAll('label[for="age"]').forEach(el => {
+                el.textContent = t('form-age');
+            });
 
-            const profLabel = document.querySelector('label[for="profession"]');
-            if (profLabel) profLabel.textContent = t('form-profession');
+            document.querySelectorAll('label[for="profession"]').forEach(el => {
+                el.textContent = t('form-profession');
+            });
 
-            const whyLabel = document.querySelector('label[for="why-useful"]');
-            if (whyLabel) whyLabel.textContent = t('form-why');
+            document.querySelectorAll('label[for="why-useful"]').forEach(el => {
+                el.textContent = t('form-why');
+            });
 
-            const adviceLabel = document.querySelector('label[for="advice"]');
-            if (adviceLabel) adviceLabel.textContent = t('form-advice');
+            document.querySelectorAll('label[for="advice"]').forEach(el => {
+                el.textContent = t('form-advice');
+            });
 
             // Form button
-            const submitBtn = document.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.textContent = t('form-submit');
+            document.querySelectorAll('button[type="submit"]').forEach(btn => {
+                btn.textContent = t('form-submit');
+            });
 
             // Guidance text
-            const guidanceText = document.getElementById('guidance-text');
-            if (guidanceText) guidanceText.textContent = t('roadmap-footer');
+            updateEl('guidance-text', 'guidance-text');
+
+            // Footer
+            updateEl('footer-privacy', 'footer-privacy');
+            updateEl('footer-terms', 'footer-terms');
+            updateEl('footer-contact', 'footer-contact');
+
+            // Input placeholders
+            const emailInput = document.getElementById('email');
+            if (emailInput) emailInput.placeholder = t('form-email-placeholder');
+
+            const ageInput = document.getElementById('age');
+            if (ageInput) ageInput.placeholder = t('form-age-placeholder');
+
+            const profInput = document.getElementById('profession');
+            if (profInput) profInput.placeholder = t('form-profession-placeholder');
+
+            const whyInput = document.getElementById('why-useful');
+            if (whyInput) whyInput.placeholder = t('form-why-placeholder');
+
+            const adviceInput = document.getElementById('advice');
+            if (adviceInput) adviceInput.placeholder = t('form-advice-placeholder');
+
+            // Roadmap step titles
+            if (currentLang === 'it') {
+                document.querySelectorAll('[data-step-id]').forEach((el, idx) => {
+                    const stop = stops[idx];
+                    if (stop) el.textContent = stop.actionIT;
+                });
+            } else {
+                document.querySelectorAll('[data-step-id]').forEach((el, idx) => {
+                    const stop = stops[idx];
+                    if (stop) el.textContent = stop.action;
+                });
+            }
+
+            // Update Miso panel with current language
+            setRoadStep(0);
+
+            console.log('✓ All translations applied successfully');
         }
 
         // Run language detection when page loads
@@ -711,13 +846,13 @@
     <script>
         // Horizontal roadmap — the seven stops from the app
         const stops = [
-            { stage: 'Idea',     action: 'Define the problem',            icon: 'idea' },
-            { stage: 'Validate', action: 'Test your riskiest assumption', icon: 'target' },
-            { stage: 'Validate', action: 'Talk to five customers',        icon: 'people' },
-            { stage: 'Plan',     action: 'Shape your value proposition',  icon: 'compass' },
-            { stage: 'Build',    action: 'Define your MVP',               icon: 'box' },
-            { stage: 'Launch',   action: 'Plan your first experiment',    icon: 'rocket' },
-            { stage: 'Grow',     action: 'Build your growth dashboard',   icon: 'chart' },
+            { stage: 'Idea',     action: 'Define the problem',            actionIT: 'Definisci il problema',                       icon: 'idea' },
+            { stage: 'Validate', action: 'Test your riskiest assumption', actionIT: 'Testa la tua ipotesi più rischiosa',         icon: 'target' },
+            { stage: 'Validate', action: 'Talk to five customers',        actionIT: 'Parla con cinque clienti',                   icon: 'people' },
+            { stage: 'Plan',     action: 'Shape your value proposition',  actionIT: 'Definisci la tua proposta di valore',       icon: 'compass' },
+            { stage: 'Build',    action: 'Define your MVP',               actionIT: 'Definisci il tuo MVP',                      icon: 'box' },
+            { stage: 'Launch',   action: 'Plan your first experiment',    actionIT: 'Pianifica il tuo primo esperimento',        icon: 'rocket' },
+            { stage: 'Grow',     action: 'Build your growth dashboard',   actionIT: 'Costruisci il tuo growth dashboard',        icon: 'chart' },
         ];
 
         const icons = {
@@ -771,11 +906,15 @@
 
             // Miso follows the selected stop
             const stop = stops[index];
+            const action = currentLang === 'it' ? stop.actionIT : stop.action;
+            const misoPrefix = currentLang === 'it' ? 'Miso suggerisce:' : 'Miso suggests:';
+            const stepSuffix = currentLang === 'it' ? 'Una piccola azione è abbastanza.' : 'One small step is enough.';
+
             misoPanel.style.opacity = 0;
             misoPanel.style.transform = 'translateY(4px)';
             setTimeout(() => {
-                misoText.textContent = `Miso suggests: ${stop.action}. One small step is enough.`;
-                misoStop.textContent = `Stop ${index + 1} of ${stops.length} · ${stop.stage} stage`;
+                misoText.textContent = `${misoPrefix} ${action}. ${stepSuffix}`;
+                misoStop.textContent = `Stop ${index + 1} di ${stops.length} · ${stop.stage} stage`;
                 misoPanel.style.opacity = 1;
                 misoPanel.style.transform = 'translateY(0)';
             }, 180);
