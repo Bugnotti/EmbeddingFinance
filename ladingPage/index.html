@@ -144,9 +144,16 @@
                     </div>
                     <span class="text-lg font-extrabold tracking-tight">Foundly</span>
                 </div>
-                <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="bg-slate-900 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-sm">
-                    Get early access
-                </button>
+                <div class="flex items-center gap-3">
+                    <div class="flex rounded-lg border border-gray-300 bg-white/50 backdrop-blur">
+                        <button id="lang-en" onclick="setLanguage('en')" class="px-3 py-2 text-sm font-semibold text-gray-700 hover:text-slate-900 transition">EN</button>
+                        <div class="w-px bg-gray-300"></div>
+                        <button id="lang-it" onclick="setLanguage('it')" class="px-3 py-2 text-sm font-semibold text-gray-700 hover:text-slate-900 transition">IT</button>
+                    </div>
+                    <button onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})" class="bg-slate-900 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition shadow-sm">
+                        Get early access
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -780,6 +787,23 @@
 
             // Update Miso panel with current language
             setRoadStep(0);
+
+            // Update language selector buttons
+            const langEnBtn = document.getElementById('lang-en');
+            const langItBtn = document.getElementById('lang-it');
+            if (langEnBtn && langItBtn) {
+                if (currentLang === 'en') {
+                    langEnBtn.classList.add('bg-slate-900', 'text-white');
+                    langEnBtn.classList.remove('text-gray-700');
+                    langItBtn.classList.remove('bg-slate-900', 'text-white');
+                    langItBtn.classList.add('text-gray-700');
+                } else {
+                    langItBtn.classList.add('bg-slate-900', 'text-white');
+                    langItBtn.classList.remove('text-gray-700');
+                    langEnBtn.classList.remove('bg-slate-900', 'text-white');
+                    langEnBtn.classList.add('text-gray-700');
+                }
+            }
 
             console.log('✓ All translations applied successfully');
         }
